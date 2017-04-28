@@ -10,5 +10,5 @@ libnetinclude_HEADERS = libnet/libnet-asn1.h \
 
 nodist_include_HEADERS = libnet.h
 
-EXTRA_DIST = bpf.h gnuc.h ifaddrlist.h
+EXTRA_DIST = bpf.h gnuc.h ifaddrlist.h config.h
 
