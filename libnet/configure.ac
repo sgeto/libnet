@@ -408,9 +408,9 @@ dnl AX_PREFIX_CONFIG_H(winconfig.h)
     LIBS="$LIBS -lws2_32 -liphlpapi"
 
     if test "$host" = "i686-w64-mingw32" ; then
-    CFLAGS="$CFLAGS -march=i686 -mwin32"
+    CFLAGS="$CFLAGS -march=i686"
     else
-    CFLAGS="$CFLAGS -mwin32"
+    CFLAGS="$CFLAGS"
 dnl the default GCC toolchains on Debian & Co are so old
      AX_CHECK_LINK_FLAG([-Wl,--high-entropy-va],
      [LDFLAGS="$LDFLAGS -Wl,--high-entropy-va"],
