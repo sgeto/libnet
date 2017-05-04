@@ -1,7 +1,5 @@
 /*
- *  $Id: dhcp_discover.c,v 1.3 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet 1.2
  *  Build a DHCP discover packet
  *  To view: /usr/sbin/tcpdump -vvvvven -s 4096 'port 67 or port 68'
  *

@@ -109,14 +109,21 @@ LDADD      = $(top_builddir)/src/libnet.la
 
 EXTRA_DIST = libnet_test.h \
              arp-new.c \
+             win32/getopt.h \
              win32/getopt.c \
-             win32/arp/arp.vcproj \
-             win32/cdp/cdp.vcproj \
-             win32/dhcp_discover/dhcp_discover.vcproj \
-             win32/dns/dns.vcproj \
-             win32/get_addr/get_addr.vcproj \
-             win32/icmp_echo_cq/icmp_echo_cq.vcproj \
-             win32/tcp1/tcp1.vcproj \
-             win32/udp1/dns.vcproj \
-             win32/udp1/udp1.vcproj
-             
+             win32/arp/arp.vcxproj \
+             win32/arp/arp.vcxproj.filters \
+             win32/cdp/cdp.vcxproj \
+             win32/cdp/cdp.vcxproj.filters \
+             win32/dhcp_discover/dhcp_discover.vcxproj \
+             win32/dhcp_discover/dhcp_discover.vcxproj.filters \
+             win32/dns/dns.vcxproj \
+             win32/dns/dns.vcxproj.filters \
+             win32/get_addr/get_addr.vcxproj \
+             win32/get_addr/get_addr.vcxproj.filters \
+             win32/icmp_echo_cq/icmp_echo_cq.vcxproj \
+             win32/icmp_echo_cq/icmp_echo_cq.vcxproj.filters \
+             win32/tcp1/tcp1.vcxproj \
+             win32/tcp1/tcp1.vcxproj.filters \
+             win32/udp1/udp1.vcxproj \
+             win32/udp1/udp1.vcxproj.filters

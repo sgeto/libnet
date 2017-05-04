@@ -1,7 +1,5 @@
 /*
- *  $Id: tcp1.c,v 1.6 2004/03/01 20:26:12 mike Exp $
- *
- *  libnet 1.1
+ *  libnet 1.2
  *  Build a TCP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -45,7 +43,7 @@ main(int argc, char *argv[])
     u_short src_prt, dst_prt;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: TCP + options[link]\n");
+    printf("libnet 1.2 packet shaping: TCP + options[link]\n");
 
     /*
      *  Initialize the library.  Root priviledges are required.

@@ -1,7 +1,5 @@
 /*
- *  $Id: arp.c,v 1.7 2004/11/09 07:05:07 mike Exp $
- *
- *  libnet 1.1
+ *  libnet 1.2
  *  Build an ARP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -47,7 +42,7 @@ main(int argc, char *argv[])
     uint32_t packet_s;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: ARP[link -- autobuilding ethernet]\n"); 
+    printf("libnet 1.2 packet shaping: ARP[link -- autobuilding ethernet]\n"); 
 
     if (argc > 1)
     {

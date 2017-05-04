@@ -1,7 +1,5 @@
 /*
- *  $Id: udp1.c,v 1.6 2004/03/01 20:26:12 mike Exp $
- *
- *  libnet 1.1
+ *  libnet 1.2
  *  Build a UDP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -48,7 +46,7 @@ main(int argc, char *argv[])
     u_char opt[20];
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: UDP + IP options[raw]\n"); 
+    printf("libnet 1.2 packet shaping: UDP + IP options[raw]\n"); 
 
     /*
      *  Initialize the library.  Root priviledges are required.

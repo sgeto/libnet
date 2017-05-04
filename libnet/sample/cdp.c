@@ -1,6 +1,4 @@
 /*
- *  $Id: cdp.c,v 1.3 2004/11/09 07:05:07 mike Exp $
- *
  *  cdppoke
  *  CDP information injection tool
  *  Released as part of the MXFP Layer 2 Toolkit
@@ -34,11 +32,7 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
-
 
 int
 main(int argc, char *argv[])

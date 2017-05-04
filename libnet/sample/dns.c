@@ -1,6 +1,5 @@
 /*
- *
- *  libnet 1.1
+ *  libnet 1.2
  *  Build a DNSv4 packet
  *  To view: /usr/sbin/tcpdump -vvvvven -s 0 port 53
  *
@@ -57,7 +56,7 @@ main(int argc, char *argv[])
     char payload[1024];
     u_short payload_s;
 
-    printf("libnet 1.1 packet shaping: DNSv4[raw]\n");
+    printf("libnet 1.2 packet shaping: DNSv4[raw]\n");
     
     /*
      *  Initialize the library.  Root privileges are required.

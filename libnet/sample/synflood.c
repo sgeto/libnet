@@ -1,9 +1,7 @@
 /*
- *  $Id: synflood.c,v 1.1.1.1 2003/06/26 21:55:11 route Exp $
- *
  *  Poseidon++ (c) 1996 - 2003 Mike D. Schiffman <mike@infonexus.com>
  *  SYN flooder rewritten for no good reason.  Again as libnet test module.
- *  Again for libnet 1.1.
+ *  Again for libnet 1.2
  *  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -163,7 +161,7 @@ main(int argc, char **argv)
             {
                 fprintf(stderr, "libnet_write: %s\n", libnet_geterror(l));
             }
-#if !(__WIN32__)
+#if !(_WIN32)
             usleep(250);
 #else
             Sleep(250);
@@ -175,7 +173,7 @@ main(int argc, char **argv)
                     libnet_addr2name4(dst_ip, 1),
                     dst_prt);
         }
-#if !(__WIN32__)
+#if !(_WIN32)
         sleep(burst_int);
 #else
         Sleep(burst_int * 1000);
