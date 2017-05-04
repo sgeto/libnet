@@ -27,6 +27,9 @@
 
 #include "common.h"
 
+/*
+* FIXME sys/types.h, and sys/ioctl.h, are already included via common.h
+*/
 #include <sys/param.h>  /* optionally get BSD define */
 #include <sys/timeb.h>
 #include <sys/file.h>

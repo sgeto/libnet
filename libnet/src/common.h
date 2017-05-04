@@ -60,16 +60,30 @@
 
 #include "../include/libnet.h"
 
+#include <fcntl.h> /* libnet_if_addr.c libnet_init.c libnet_raw.c libnet_resolve.c libnet_link_linux.c */
+#include <ctype.h> /* libnet_if_addr.c libnet_port_list.c libnet_resolve.c */
+
 #if (_WIN32) || (__CYGWIN__)
 #include <malloc.h>    /* alloca() */
 #include <Ntddndis.h>
 #else
-/*
-* FIXME sys/types.h, is already UNCONDITIONALLY included via libnet.h
-*/
+
 #include <assert.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+
+#include <sys/ioctl.h> /* libnet_if_addr.c libnet_resolve.c libnet_link_linux.c */
+#include <net/if.h> /* libnet_if_addr.c libnet_resolve.c */
+#include <arpa/inet.h> /* libnet_resolve.c */
+#include <netdb.h>  /* libnet_resolve.c */
+
+#if defined(HAVE_SYS_SOCKIO_H) && !defined(SIOCGIFADDR)
+#include <sys/sockio.h>
+#endif
+
+#if (HAVE_NET_ETHERNET_H)
+#include <net/ethernet.h>
+#endif  /* HAVE_NET_ETHERNET_H */
 
 #endif
 

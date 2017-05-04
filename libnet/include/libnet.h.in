@@ -75,32 +75,11 @@ extern "C" {
 #ifndef DOXYGEN_SHOULD_SKIP_THIS // mess
 #include <stdio.h>
 #include <string.h>
-#include <fcntl.h>
-#include <signal.h>
 #include <stdlib.h>
-
-// #include <sys/stat.h>
-// #include <sys/types.h>
-// #include <ctype.h>
-
 #include <errno.h>
-#include <stdarg.h>
-
-#if !defined(_MSC_VER)
-//#include <unistd.h>
-#endif
-
-#if defined(HAVE_SYS_SOCKIO_H) && !defined(SIOCGIFADDR)
-#include <sys/sockio.h>
-#endif
 
 #if !defined(_WIN32)
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <net/if.h>
 #include <arpa/inet.h>
-#include <sys/time.h>
-#include <netdb.h>
 #else /* _WIN32 */
 #if (__CYGWIN__)
 #include <sys/socket.h>
@@ -122,10 +101,6 @@ extern "C" {
 #include <windows.h>
 #include <winsock2.h>
 #endif /* _WIN32 */
-
-#if (HAVE_NET_ETHERNET_H)
-#include <net/ethernet.h>
-#endif  /* HAVE_NET_ETHERNET_H */
 
 #define LIBNET_VERSION  "@PACKAGE_VERSION@"
 

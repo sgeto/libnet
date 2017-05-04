@@ -24,7 +24,14 @@
 
 #include "common.h"
 
-
+/*
+* FIXME net/if.h is already included via common.h.
+* net/ethernet.h is correctly wrapped in HAVE_NET_ETHERNET_H in common.h.
+* net/ethernet.h internally includes some of the net/*.h header files
+* which this file includes again. However, the net/*.h header files
+* net/ethernet.h includes vary from distro/kernel version to
+* distro/kernel version. *Sigh*
+*/
 #include <sys/time.h>
 
 #include <net/if.h>

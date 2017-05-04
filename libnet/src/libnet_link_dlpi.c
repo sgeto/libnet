@@ -31,6 +31,10 @@
 
 #include "common.h"
 
+/*
+* FIXME sys/types.h, sys/socket.h, ctype.h, net/if.h
+* and others are already included via common.h
+*/
 #include <sys/types.h>
 #include <sys/time.h>
 #ifdef HAVE_SYS_BUFMOD_H

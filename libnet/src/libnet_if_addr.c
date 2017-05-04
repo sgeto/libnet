@@ -30,6 +30,7 @@
 
 #include "common.h"
 
+/* FIXME HAVE_SYS_SOCKIO_H is also set in common.h */
 #ifdef HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h>
 #endif
