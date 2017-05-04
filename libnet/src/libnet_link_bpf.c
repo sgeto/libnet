@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_link_bpf.c,v 1.6 2004/01/28 19:45:00 mike Exp $
- *
  *  libnet
  *  libnet_link_bpf.c - low-level bpf routines
  *
@@ -45,10 +43,6 @@
 #include "../include/gnuc.h"
 
 #include <bpf.h>
-
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 int
 libnet_bpf_open(char *err_buf)

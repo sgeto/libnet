@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_link_dlpi.c,v 1.8 2004/01/28 19:45:00 mike Exp $
- *
  *  libnet
  *  libnet_dlpi.c - dlpi routines
  *
@@ -26,7 +24,7 @@
  * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This code contributed by Atanu Ghosh (atanu@cs.ucl.ac.uk),
+ * This code is contributed by Atanu Ghosh (atanu@cs.ucl.ac.uk),
  * University College London.
  */
 
@@ -76,9 +74,6 @@
 #include "../include/bpf.h"
 
 #include "../include/gnuc.h"
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 #ifndef DLPI_DEV_PREFIX
 #define DLPI_DEV_PREFIX "/dev"

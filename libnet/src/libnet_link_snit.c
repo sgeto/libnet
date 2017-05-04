@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_link_snit.c,v 1.6 2004/01/03 20:31:02 mike Exp $
- *
  *  libnet
  *  libnet_snit.c - snit routines
  *
@@ -32,11 +30,7 @@
  */
 
 #include "common.h"
-
 #include "../include/gnuc.h"
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 struct libnet_link_int *
 libnet_open_link_interface(int8_t *device, int8_t *ebuf)

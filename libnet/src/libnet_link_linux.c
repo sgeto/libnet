@@ -1,7 +1,5 @@
 /*
- *  $Id: libnet_link_linux.c,v 1.5 2004/01/03 20:31:02 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  libnet_link_linux.c - linux packet socket and pack socket routines
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -53,9 +51,6 @@
 #define DLT_RAW		12	/* raw IP */
 
 #include "../include/gnuc.h"
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 
 int

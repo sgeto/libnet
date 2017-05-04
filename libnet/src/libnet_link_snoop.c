@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_link_snoop.c,v 1.5 2004/01/03 20:31:02 mike Exp $
- *
  *  libnet
  *  libnet_snoop.c - snoop routines
  *
@@ -27,6 +25,8 @@
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+/*FIXME or should I say test me? */
+
 #include <sys/param.h>
 #include <sys/file.h>
 #include <netinet/in.h>
@@ -34,9 +34,6 @@
 #include <netinet/tcp.h>
 
 #include "common.h"
-#include "../include/config.h"
-#endif
-#include "../include/libnet.h"
 
 #include <net/raw.h>
 #include <net/if.h>
@@ -47,9 +44,6 @@
 
 #include "../include/gnuc.h"
 #include "../include/bpf.h"
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 
 /**
