@@ -51,7 +51,7 @@ EXTRA_DIST    = README.win32 \
                 $(APIDOC_DEPS)
 
 WIN32         = win32/wpdpack \
-                msvcbuild.bat \
+                msvcbuild.bat
 
 APIDOCS       = doc/api/*.html \
                 doc/api/*.css \
