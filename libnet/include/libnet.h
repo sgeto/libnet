@@ -79,37 +79,49 @@ extern "C" {
 #include <signal.h>
 #include <stdlib.h>
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <ctype.h>
+// #include <sys/stat.h>
+// #include <sys/types.h>
+// #include <ctype.h>
 
 #include <errno.h>
 #include <stdarg.h>
 
 #if !defined(_MSC_VER)
-#include <unistd.h>
+//#include <unistd.h>
 #endif
 
 #if defined(HAVE_SYS_SOCKIO_H) && !defined(SIOCGIFADDR)
 #include <sys/sockio.h>
 #endif
 
-#if !defined(__WIN32__)
+#if !defined(_WIN32)
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <net/if.h>
 #include <arpa/inet.h>
 #include <sys/time.h>
 #include <netdb.h>
-#else /* __WIN32__ */
+#else /* _WIN32 */
 #if (__CYGWIN__)
 #include <sys/socket.h>
+#else
+#include <pcap/pcap.h>
+#define WPCAP 1 /* FIXME deprecated? */
+#include <Packet32.h>
 #endif
+#if (_MSC_VER)
+/* libnet-config - MSVC Edition */
+#pragma comment (lib,"ws2_32")      /* Winsock 2 */
+//#pragma comment (lib,"wsock_trace") /* Gisle Vanem's excellent Winsock Tracing Library */
+#pragma comment (lib,"iphlpapi")    /* IP Helper */
+#pragma comment (lib,"wpcap")       /* Winpcap   */
+#pragma comment (lib,"packet")     /* Packet    */
+#endif /* _MSC_VER */
 #include <stdint.h>
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <winsock2.h>
-#endif /* __WIN32__ */
+#endif /* _WIN32 */
 
 #if (HAVE_NET_ETHERNET_H)
 #include <net/ethernet.h>
@@ -117,14 +129,20 @@ extern "C" {
 
 #define LIBNET_VERSION  "1.2-rc3"
 
+/* Hard-coded for MSVC. Hope that doesn't backfire... */
+#if (_MSC_VER)
 #define LIBNET_LIL_ENDIAN 1
+#else
+#define LIBNET_LIL_ENDIAN 1
+#endif
 
 #ifndef LIBNET_API
 #define LIBNET_API
 #endif
+
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-#include "./libnet/libnet-types.h"
+#include "./libnet/libnet-types.h" /* ??? */
 #include "./libnet/libnet-macros.h"
 #include "./libnet/libnet-headers.h"
 #include "./libnet/libnet-structures.h"

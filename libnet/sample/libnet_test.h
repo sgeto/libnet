@@ -9,6 +9,16 @@
 
 #if (HAVE_CONFIG_H)
 #include "../include/config.h"
+#else /* MSVC */
+#include "../include/winconfig.h"
+#endif
+
+#if (HAVE_UNISTD_H)
+#if (_MSC_VER)
+#include "../../../win32/getopt.h" /* relative from .vsproj files */
+#else 
+#include <unistd.h> /* a bit of an overkill */
+#endif
 #endif
 
 #include "../include/libnet.h"
