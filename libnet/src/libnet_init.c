@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_init.c,v 1.17 2004/03/16 18:40:59 mike Exp $
- *
  *  libnet
  *  libnet_init.c - Initilization routines.
  *
@@ -37,7 +35,7 @@ libnet_init(int injection_type, const char *device, char *err_buf)
 {
     libnet_t *l = NULL;
 
-#if defined(__WIN32__)
+#if defined(_WIN32)
     WSADATA wsaData;
 
     if ((WSAStartup(0x0202, &wsaData)) != 0)

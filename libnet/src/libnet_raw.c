@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_raw.c,v 1.9 2004/02/18 18:19:00 mike Exp $
- *
  *  libnet
  *  libnet_raw.c - raw sockets routines
  *
@@ -37,9 +35,9 @@ typedef int socklen_t;
 #endif
 
 /* TODO this doesn't make any sense, the code in the #else branch is littered
-   with conditionals on __WIN32__ that are never reachable, what happened?
+   with conditionals on _WIN32 that are never reachable, what happened?
    */
-#if defined (__WIN32__)
+#if defined (_WIN32)
 int
 libnet_open_raw4(libnet_t *l)
 {
@@ -67,7 +65,7 @@ libnet_close_raw6(libnet_t *l)
 
 static int libnet_finish_setup_socket(libnet_t *l)
 {
-#if !(__WIN32__)
+#if !(_WIN32)
      int n = 1;
 #if (__svr4__)
      void *nptr = &n;
@@ -154,7 +152,7 @@ libnet_open_raw4(libnet_t *l)
 {
     socklen_t len;
 
-#if !(__WIN32__)
+#if !(_WIN32)
      int n = 1;
 #if (__svr4__)
      void *nptr = &n;
@@ -188,7 +186,7 @@ libnet_open_raw4(libnet_t *l)
  * is enabled, the packet must contain an IP header.  For
  * receiving the IP header is always included in the packet.
  */
-#if !(__WIN32__)
+#if !(_WIN32)
     if (setsockopt(l->fd, IPPROTO_IP, IP_HDRINCL, nptr, sizeof(n)) == -1)
 #else
     n = TRUE;
@@ -225,7 +223,7 @@ libnet_close_raw4(libnet_t *l)
     return (close(l->fd));
 }
 
-#if ((defined HAVE_SOLARIS && !defined HAVE_SOLARIS_IPV6) || defined (__WIN32__))
+#if ((defined HAVE_SOLARIS && !defined HAVE_SOLARIS_IPV6) || defined (_WIN32))
 int libnet_open_raw6(libnet_t *l)
 {
 	return (-1);
@@ -235,7 +233,7 @@ int libnet_open_raw6(libnet_t *l)
 int
 libnet_open_raw6(libnet_t *l)
 {
-#if !(__WIN32__)
+#if !(_WIN32)
 #if (__svr4__)
      int one = 1;
      void *oneptr = &one;

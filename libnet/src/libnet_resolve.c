@@ -215,7 +215,7 @@ libnet_addr2name6_r(struct libnet_in6_addr addr, uint8_t use_name,
     }
     if (!host_ent)
     {
-#if !defined(__WIN32__) /* Silence Win32 warning */
+#if !defined(_WIN32) /* Silence Win32 warning */
         inet_ntop(AF_INET6, &addr, host_name, host_name_len);
 #endif
     }
@@ -237,14 +237,14 @@ libnet_in6_is_error(struct libnet_in6_addr addr)
 struct libnet_in6_addr
 libnet_name2addr6(libnet_t *l, const char *host_name, uint8_t use_name)
 {
-#if !defined (__WIN32__)
+#if !defined (_WIN32)
     struct libnet_in6_addr addr;
     struct hostent *host_ent; 
 #endif
    
     if (use_name == LIBNET_RESOLVE)
     {
-#ifdef __WIN32__
+#ifdef _WIN32
         /* XXX - we don't support this yet */
         if (l)
         {        
@@ -272,11 +272,11 @@ libnet_name2addr6(libnet_t *l, const char *host_name, uint8_t use_name)
         }
         memcpy(&addr, host_ent->h_addr, host_ent->h_length);
         return (addr);
-#endif  /* !__WIN32__ */
+#endif  /* !_WIN32 */
     }
     else
     {
-#if defined(__WIN32__) /* Silence Win32 warning */
+#if defined(_WIN32) /* Silence Win32 warning */
         if (l)
         {        
                snprintf(l->err_buf, LIBNET_ERRBUF_SIZE,
@@ -352,9 +352,9 @@ libnet_get_ipaddr6(libnet_t *l)
            "%s(): not yet Implemented", __func__);
     return (in6addr_error);
 }
-#endif /* WIN32 */
+#endif /* _WIN32 */
 
-#if !defined(__WIN32__)
+#if !defined(_WIN32)
 uint32_t
 libnet_get_ipaddr4(libnet_t *l)
 {
@@ -420,7 +420,7 @@ libnet_get_ipaddr4(libnet_t *l)
     }
     return (sin.sin_addr.s_addr);
 }
-#endif /* WIN32 */
+#endif /* _WIN32 */
 
 uint8_t *
 libnet_hex_aton(const char *s, int *len)

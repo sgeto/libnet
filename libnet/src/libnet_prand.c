@@ -30,7 +30,7 @@
 
 #include "common.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <wincrypt.h>
 #else
 #include <sys/time.h> /* gettimeofday() */
@@ -40,7 +40,7 @@
 int
 libnet_seed_prand(libnet_t *l)
 {
-#ifndef WIN32
+#ifndef _WIN32
     struct timeval seed;
 #endif
 
@@ -49,7 +49,7 @@ libnet_seed_prand(libnet_t *l)
         return (-1);
     }
 
-#ifdef WIN32
+#ifdef _WIN32
     srand((unsigned)time(NULL));
 #else
     if (gettimeofday(&seed, NULL) == -1)
@@ -76,7 +76,7 @@ uint32_t
 libnet_get_prand(int mod)
 {
     uint32_t n;  /* 0 to 4,294,967,295 */
-#ifndef WIN32
+#ifndef _WIN32
     n = random();
 #else
     HCRYPTPROV hProv = 0;

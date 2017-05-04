@@ -2598,7 +2598,7 @@ LIBNET_API
 int
 libnet_pblock_coalesce(libnet_t *l, uint8_t **packet, uint32_t *size);
 
-#if !(__WIN32__)
+#if !(_WIN32)
 /*
  * [Internal] 
  * By testing if we can retrieve the FLAGS of an interface
@@ -2608,7 +2608,7 @@ int
 libnet_check_iface(libnet_t *l);
 #endif
 
-#if defined(__WIN32__)
+#if defined(_WIN32)
 /*
  * [Internal] 
  */
