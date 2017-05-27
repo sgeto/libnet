@@ -2,7 +2,6 @@
  *
  *  Poseidon++ (c) 1996 - 2003 Mike D. Schiffman <mike@infonexus.com>
  *  SYN flooder rewritten for no good reason.  Again as libnet test module.
- *  Again for libnet 1.2.
  *  All rights reserved.
  *
  * Modifications for ipv6 by Stefan Schlott <stefan@ploing.de>
@@ -30,9 +29,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 struct t_pack
@@ -62,7 +58,7 @@ main(int argc, char **argv)
     burst_amt   = 1;
     tcp = ip_frag = ip = LIBNET_PTAG_INITIALIZER;
 
-    printf("libnet 1.1 syn flooding: TCP IPv6 fragments [raw]\n");
+    printf("%s syn flooding: TCP IPv6 fragments [raw]\n", PACKAGE_STRING);
     
     l = libnet_init(
             LIBNET_RAW6,            /* injection type */

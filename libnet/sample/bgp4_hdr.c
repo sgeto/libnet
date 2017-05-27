@@ -1,6 +1,5 @@
 /*
- *
- * libnet 1.1
+ * libnet
  * Build a BGP4 header with what you want as payload
  *
  * Copyright (c) 2003 Frédéric Raynal <pappy@security-labs.org>
@@ -45,9 +44,7 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
+
 #include "./libnet_test.h"
 
 int
@@ -63,7 +60,7 @@ main(int argc, char *argv[])
     u_char marker[LIBNET_BGP4_MARKER_SIZE];
     u_char type;
 
-    printf("libnet 1.1 packet shaping: BGP4 hdr + payload[raw]\n");
+    printf("%s packet shaping: BGP4 hdr + payload[raw]\n", PACKAGE_STRING);
 
     l = libnet_init(
             LIBNET_RAW4,                            /* injection type */

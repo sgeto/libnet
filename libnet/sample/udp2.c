@@ -1,5 +1,5 @@
 /*
- *  libnet 1.2
+ *  libnet
  *  Build a UDP packet using port list chains
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -28,11 +28,7 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
-
 
 int
 main(int argc, char **argv)
@@ -52,7 +48,7 @@ main(int argc, char **argv)
     libnet_plist_t plist, *plist_p;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.2 packet shaping: UDP2[link]\n");
+    printf("%s packet shaping: UDP2[link]\n", PACKAGE_STRING);
 
     l = libnet_init(
             LIBNET_LINK,                            /* injection type */

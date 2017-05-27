@@ -1,5 +1,5 @@
 /*
- *  libnet 1.2
+ *  libnet
  *  Build a UDP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -46,10 +46,10 @@ main(int argc, char *argv[])
     u_char opt[20];
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.2 packet shaping: UDP + IP options[raw]\n"); 
+    printf("%s packet shaping: UDP + IP options[raw]\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
             LIBNET_RAW4,                            /* injection type */

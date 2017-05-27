@@ -1,6 +1,5 @@
 /*
- *
- * libnet 1.1
+ * libnet
  * Build a TFTP scanner using payload
  *
  * Copyright (c) 2003 Frédéric Raynal <pappy@security-labs.org>
@@ -32,11 +31,8 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
-#include "./libnet_test.h"
 
+#include "./libnet_test.h"
 
 int
 main(int argc, char *argv[])
@@ -52,10 +48,10 @@ main(int argc, char *argv[])
     uint32_t payload_s = 0;
     
 
-    printf("libnet 1.1 packet shaping: UDP + payload[raw] == TFTP\n");
+    printf("%s packet shaping: UDP + payload[raw] == TFTP\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
 	    LIBNET_RAW4,                  /* injection type */

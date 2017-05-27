@@ -1,6 +1,6 @@
 /*
- *  libnet 1.2
- *  Build an ARP packet
+ *  libnet
+ *  arp.c - Build an ARP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
  *  All rights reserved.
@@ -42,7 +42,7 @@ main(int argc, char *argv[])
     uint32_t packet_s;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.2 packet shaping: ARP[link -- autobuilding ethernet]\n"); 
+    printf("%s packet shaping: ARP[link -- autobuilding ethernet]\n", PACKAGE_STRING);
 
     if (argc > 1)
     {

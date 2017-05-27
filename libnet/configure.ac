@@ -1,14 +1,59 @@
-dnl
-dnl Libnet autoconfiguration information file
-dnl Copyright (c) 1998 - 2002 Mike D. Schiffman <mike@infonexus.com>
-dnl Modified by Ali Abdulkadir <autostart.ini@gmail.com>
-dnl All rights reserved.
-dnl
-dnl Process this file with autoconf to produce a configure script.
+#
+# Libnet autoconfiguration information file
+# Copyright (c) 1998 - 2002 Mike D. Schiffman <mike@infonexus.com>
+# Modified by Ali Abdulkadir <autostart.ini@gmail.com>
+# All rights reserved.
+#
+# Process this file with autoconf to produce a configure script.
+
+# First things first:
+# Set and worry about package and library version here
+# (and HERE only)
+
+define([PACKAGE_VERSION_MAJOR], [1])
+define([PACKAGE_VERSION_MINOR], [2])
+define([PACKAGE_VERSION_PATCH], [0])
+define([PACKAGE_VERSION_NANO], [0])
+define([PACKAGE_SUFFIX], [-rc3])
+
+define([LN_CURRENT], [9])
+define([LN_REVISION], [0])
+define([LN_AGE], [0])
+
+# Package versioning note:
+# ========================
+# If libnet package version logic has not already, it will follow the so-called
+# Semantic Versioning Specification (SemVer)
+# See this if you have no idea what that means:
+#   http://semver.org/
+#
+# This means that PACKAGE_VERSION_PATCH may NOT be omitted from version string
+# even if set to 0.
+# PACKAGE_VERSION_NANO may be used for Windows internal versioning.
+# 0 means unused.
+# PACKAGE_SUFFIX may be things like "-rc", "-alpha", "-beta" ect.
+# Leave blank if none of this applies.
+#
+# Library versioning note:
+# ========================
+# The library version should NOT simply be the version of the libnet package.
+# See:
+#   https://www.sourceware.org/autobook/autobook/autobook_61.html#Library-Versioning
+#   http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+# for the rules.
+#
+# Library versioning history:
+# 1.1.2.1-fork is 5:0:4
+# 1.1.3 will be 6:0:5  -> new interfaces, backwards compatible
+# 1.1.4 was 6:0:5 -> probably an error on my part
+# 1.1.5 is 7:0:6 -> new APIs, backwards compatible
+# 1.1.6 is 8:0:7 -> new APIs, backwards compatible
+# 1.2.0 is 9:0:0 -> new APIs, removed __libnet_print_vers (internal, should not have been used, but linkable) APIs
+
 
 AC_INIT(
     [libnet],
-    [1.2-rc3],
+    [PACKAGE_VERSION_MAJOR.PACKAGE_VERSION_MINOR.PACKAGE_VERSION_PATCH[]PACKAGE_SUFFIX],
     [https://github.com/sgeto/libnet/issues],
     [libnet],
     [https://github.com/sgeto/libnet])
@@ -41,6 +86,7 @@ dnl The default is to use only PIC objects.
 dnl This can still be overwritten with --without-pic
 LT_INIT([pic-only])
 
+AC_SUBST(LT_VERSION, [LN_CURRENT:LN_REVISION:LN_AGE])
 AC_CHECK_HEADERS(sys/sockio.h)
 AC_CHECK_FUNCS([gethostbyname2])
 AC_CHECK_FUNCS([getifaddrs])
@@ -395,6 +441,7 @@ dnl
 dnl additionally prepare a winconfig.h from config.h.in for MSVC
 dnl see m4/ax_prefix_config_h.m4
 dnl AX_PREFIX_CONFIG_H(winconfig.h)
+    PACKAGE_VERSION_DLL=PACKAGE_VERSION_MAJOR,PACKAGE_VERSION_MINOR,PACKAGE_VERSION_PATCH,PACKAGE_VERSION_NANO
 
     if test "$enable_shared" = "yes"; then
         AC_CHECK_TOOL(WINDRES, windres, :)
@@ -402,6 +449,12 @@ dnl AX_PREFIX_CONFIG_H(winconfig.h)
 
     AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
         [Define to limit the scope of <windows.h>])
+
+    AC_DEFINE_UNQUOTED([PACKAGE_VERSION_DLL], [$PACKAGE_VERSION_DLL], 
+        [Define to the DLL-preferred version of this package.])
+
+    AC_DEFINE_UNQUOTED([PACKAGE_DLL_NAME], ["libnet-LN_CURRENT.dll"], 
+        [Define to the libtool-preferred DLL name of this package.])
 
     AC_CHECK_LIB(packet, PacketSetMode, ,AC_MSG_ERROR(libpacket.a not found. See README.win32 for more information))
     AC_CHECK_LIB(wpcap, pcap_setmode, ,AC_MSG_ERROR(libwpcap.a not found. See README.win32 for more information))

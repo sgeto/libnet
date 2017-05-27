@@ -1,5 +1,5 @@
 /*
- *  libnet 1.2
+ *  libnet
  *  get_addr.c - Retrieve the MAC and IP address of an interface
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -40,7 +40,7 @@ main(int argc, char *argv[])
     struct libnet_ether_addr *e;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.2 address getter\n");
+    printf("%s address getter\n", PACKAGE_STRING);
 
     while ((c = getopt(argc, argv, "i:")) != EOF)
     {
@@ -55,7 +55,7 @@ main(int argc, char *argv[])
     }
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
             LIBNET_LINK,                            /* injection type */

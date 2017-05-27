@@ -1,7 +1,5 @@
 /*
- *  $Id: ntp.c,v 1.3 2004/02/20 18:53:49 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an NTP Packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -44,10 +39,10 @@ main(int argc, char **argv)
     libnet_ptag_t t;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 NTP packet shaping[raw -- autobuilding IP]\n");
+    printf("%s NTP packet shaping[raw -- autobuilding IP]\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
             LIBNET_RAW4,                            /* injection type */

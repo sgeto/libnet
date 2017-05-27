@@ -25,9 +25,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 struct t_pack
@@ -55,7 +52,7 @@ main(int argc, char **argv)
     burst_int   = 0;
     burst_amt   = 1;
 
-    printf("libnet 1.1 echo request ICMP6[raw]\n");
+    printf("%s echo request ICMP6[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root privileges are required.

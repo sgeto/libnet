@@ -1,6 +1,5 @@
 /*
- *
- *  libnet 1.1.2
+ *  libnet
  *  Build a HSRP packet
  *
  *  Copyright (c) 2004 David Barroso Berrueta <tomac@wasahero.org>
@@ -31,7 +30,6 @@
 
 #include "./libnet_test.h"
 
-
 int
 main(int argc, char *argv[])
 {
@@ -56,10 +54,10 @@ main(int argc, char *argv[])
     char errbuf[LIBNET_ERRBUF_SIZE];
     libnet_ptag_t ptag = 0;
 
-    printf("libnet 1.1.2 packet shaping: HSRP[link]\n"); 
+    printf("%s packet shaping: HSRP[link]\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
 	    LIBNET_LINK_ADV,                        /* injection type */

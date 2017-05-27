@@ -1,7 +1,5 @@
 /*
- *  $Id: smurf.c,v 1.2 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build Smurf packets
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 void usage(char *);
@@ -52,7 +47,7 @@ main(int argc, char **argv)
   char errbuf[LIBNET_ERRBUF_SIZE];
   char label[LIBNET_LABEL_SIZE];
 
-    printf("libnet 1.1 smurf DoS: ICMP[RAW using context queue]\n");
+    printf("%s smurf DoS: ICMP[RAW using context queue]\n", PACKAGE_STRING);
 
   while((c = getopt(argc, argv, "t:i:c:")) != EOF)
   {

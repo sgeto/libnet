@@ -1,6 +1,5 @@
 /*
- *
- *  libnet 1.1
+ *  libnet
  *  Build a GRE packet
  *  To view: tcpdump -s 0 -n -X -vvv proto gre
  *
@@ -75,9 +74,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 
@@ -120,10 +116,10 @@ main(int argc, char *argv[])
     u_long size = 0;
     libnet_ptag_t t;
 
-    printf("libnet 1.1 packet shaping: GRE [link]\n");
+    printf("%s packet shaping: GRE [link]\n", PACKAGE_STRING);
     
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
             LIBNET_LINK,                            /* injection type */

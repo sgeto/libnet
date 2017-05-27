@@ -1,5 +1,5 @@
 /*
- *  libnet 1.1
+ *  libnet
  *  Build a TCP packet to ride on Token Ring
  *
  *  Copyright (c) 1998 - 2001 Mike D. Schiffman <mike@infonexus.com>
@@ -28,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -46,10 +43,10 @@ main(int argc, char *argv[])
     u_short src_prt, dst_prt;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: TCP (over Token Ring) [link]\n");
+    printf("%s packet shaping: TCP (over Token Ring) [link]\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      *
      *  Currently hard-coded for tr0.
      */

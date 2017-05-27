@@ -1,7 +1,6 @@
 /*
- *  $Id: icmp_timestamp.c,v 1.2 2004/01/03 20:31:01 mike Exp $
  *
- *  libnet 1.1
+ *  libnet
  *  Build an ICMP_TSTAMP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +29,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -44,7 +40,7 @@ main(int argc, char **argv)
     u_long src_ip, dst_ip;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: ICMP timestamp[raw]\n");
+    printf("%s packet shaping: ICMP timestamp[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root priviledges are required.

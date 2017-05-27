@@ -1,7 +1,5 @@
 /*
- *  $Id: ieee.c,v 1.2 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an ieee 802.1q/ARP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -46,7 +41,7 @@ main(int argc, char *argv[])
     char *device = NULL;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: ieee[802.1q / 802.2 / ARP]\n"); 
+    printf("%s packet shaping: ieee[802.1q / 802.2 / ARP]\n", PACKAGE_STRING);
 
     do_802_2 = 0;
     device = NULL;

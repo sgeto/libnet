@@ -102,7 +102,7 @@ extern "C" {
 #include <winsock2.h>
 #endif /* _WIN32 */
 
-#define LIBNET_VERSION  "1.2-rc3"
+#define LIBNET_VERSION  "1.2.0-rc3"
 
 /* Hard-coded for MSVC. Hope that doesn't backfire... */
 #if (_MSC_VER)

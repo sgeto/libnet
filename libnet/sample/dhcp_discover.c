@@ -1,5 +1,5 @@
 /*
- *  libnet 1.2
+ *  libnet
  *  Build a DHCP discover packet
  *  To view: /usr/sbin/tcpdump -vvvvven -s 4096 'port 67 or port 68'
  *

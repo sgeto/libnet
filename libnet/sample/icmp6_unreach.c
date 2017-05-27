@@ -1,5 +1,4 @@
 /*
- *
  *  Poseidon++ (c) 1996 - 2002 Mike D. Schiffman <mike@infonexus.com>
  *  Redone from synflood example by Stefan Schlott <stefan@ploing.de>
  *
@@ -26,9 +25,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 struct t_pack
@@ -56,7 +52,7 @@ main(int argc, char **argv)
     burst_int   = 0;
     burst_amt   = 1;
 
-    printf("libnet 1.1 unreach/admin prohibited request ICMP6[raw]\n");
+    printf("%s unreach/admin prohibited request ICMP6[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root priviledges are required.

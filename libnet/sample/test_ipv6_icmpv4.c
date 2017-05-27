@@ -27,17 +27,10 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
+
 #include "./libnet_test.h"
 
 #include <assert.h>
-#ifdef _WIN32
-#include <winsock2.h>
-#else
-#include <netinet/in.h>
-#endif
 
 static void print_pblocks(libnet_t* l)
 {

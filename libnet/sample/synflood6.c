@@ -1,7 +1,6 @@
 /*
  *  Poseidon++ (c) 1996 - 2003 Mike D. Schiffman <mike@infonexus.com>
  *  SYN flooder rewritten for no good reason.  Again as libnet test module.
- *  Again for libnet 1.2.
  *  All rights reserved.
  *
  * Modifications for ipv6 by Stefan Schlott <stefan@ploing.de>
@@ -29,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 struct t_pack
@@ -59,7 +55,7 @@ main(int argc, char **argv)
     burst_int   = 0;
     burst_amt   = 1;
 
-    printf("libnet 1.1 syn flooding: TCP6[raw]\n");
+    printf("%s syn flooding: TCP6[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root privileges are required.

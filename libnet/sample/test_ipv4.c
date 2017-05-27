@@ -27,9 +27,7 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
+
 #include "./libnet_test.h"
 
 #include <assert.h>
