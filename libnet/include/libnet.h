@@ -83,23 +83,29 @@ extern "C" {
 #else /* _WIN32 */
 #if (__CYGWIN__)
 #include <sys/socket.h>
-#else
-#include <pcap/pcap.h>
-#define WPCAP 1 /* FIXME deprecated? */
-#include <Packet32.h>
 #endif
 #if (_MSC_VER)
-/* libnet-config - MSVC Edition */
-#pragma comment (lib,"ws2_32")      /* Winsock 2 */
-//#pragma comment (lib,"wsock_trace") /* Gisle Vanem's excellent Winsock Tracing Library */
-#pragma comment (lib,"iphlpapi")    /* IP Helper */
-#pragma comment (lib,"wpcap")       /* Winpcap   */
-#pragma comment (lib,"packet")     /* Packet    */
+#if (WSOCK_TRACE)
+#if (_WIN64)
+#pragma comment (lib,"wsock_trace_x64") /* Gisle Vanem's excellent Winsock Tracing Library */
+#else
+#pragma comment (lib,"wsock_trace")     /* Available at https://github.com/gvanem/wsock-trace */
+#endif
+#else
+#pragma comment (lib,"ws2_32")          /* Winsock 2 */
+#endif /* (WSOCK_TRACE) */
+#pragma comment (lib,"iphlpapi")        /* IP Helper */
+#pragma comment (lib,"wpcap")           /* Winpcap   */
+#pragma comment (lib,"packet")          /* Packet    */
 #endif /* _MSC_VER */
+
 #include <stdint.h>
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <winsock2.h>
+#include <pcap/pcap.h>
+#define WPCAP 1 /* FIXME deprecated? */
+#include <Packet32.h>
 #endif /* _WIN32 */
 
 #define LIBNET_VERSION  "1.2.0-rc3"
