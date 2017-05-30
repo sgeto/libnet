@@ -71,6 +71,7 @@ AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/libnet_build_ip.c])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-ustar dist-zip])
+AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-pax dist-zip])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([include/config.h])
 
