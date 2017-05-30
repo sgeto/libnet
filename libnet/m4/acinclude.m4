@@ -1,6 +1,5 @@
-dnl $Id: acinclude.m4,v 1.3 2004/01/15 23:53:06 mike Exp $
 dnl
-dnl Libnet specific autoconf macros
+dnl libnet specific autoconf macros
 dnl Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
 dnl All rights reserved.
 dnl
@@ -28,15 +27,9 @@ AC_DEFUN([AC_LIBNET_LINUX_PROCFS],
 dnl
 dnl Checks to see if this linux kernel has a working PF_PACKET
 dnl
-dnl usage:
+dnl usage:      AC_LIBNET_CHECK_PF_PACKET
+dnl results:    HAVE_PACKET_SOCKET (DEFINED)
 dnl
-dnl     AC_LIBNET_CHECK_PF_PACKET
-dnl
-dnl results:
-dnl
-dnl     HAVE_PACKET_SOCKET (DEFINED)
-dnl
-
 AC_DEFUN([AC_LIBNET_CHECK_PF_PACKET],
 [
     AC_MSG_CHECKING(for packet socket (PF_PACKET))
@@ -117,15 +110,8 @@ dnl Looks for a previous libnet version and attempts to determine which version
 dnl it is.  Version 0.8 was the first version that actually knew internally
 dnl what version it was.
 dnl
-dnl usage:
+dnl usage:      AC_LIBNET_CHECK_LIBNET_VERSION
 dnl
-dnl     AC_LIBNET_CHECK_LIBNET_VERSION
-dnl
-dnl results:
-dnl
-dnl
-dnl
-
 AC_DEFUN([AC_LIBNET_CHECK_LIBNET_VER],
 [
     AC_CHECK_LIB(net, libnet_build_ip, AC_MSG_CHECKING(version) \
@@ -147,20 +133,13 @@ changequote([, ])dnl
     )
 ])
 
-
 dnl
 dnl Checks to see if this linux kernel uses ip_sum or ip_csum
 dnl (Pulled from queso)
 dnl
-dnl usage:
+dnl usage:      AC_LIBNET_CHECK_IP_CSUM
+dnl results:    HAVE_STRUCT_IP_CSUM (DEFINED)
 dnl
-dnl     AC_LIBNET_CHECK_IP_CSUM
-dnl
-dnl results:
-dnl
-dnl     HAVE_STRUCT_IP_CSUM (DEFINED)
-dnl
-
 AC_DEFUN([AC_LIBNET_CHECK_IP_CSUM],
 [
     AC_MSG_CHECKING([struct ip contains ip_csum])
@@ -181,20 +160,13 @@ AC_DEFUN([AC_LIBNET_CHECK_IP_CSUM],
     ])
 ])
 
-
 dnl
 dnl Checks endianess
 dnl
-dnl usage:
+dnl usage:      AC_LIBNET_ENDIAN_CHECK
+dnl results:    LIBNET_BIG_ENDIAN = 1  or
+dnl             LIBNET_LIL_ENDIAN = 1
 dnl
-dnl     AC_LIBNET_ENDIAN_CHECK
-dnl
-dnl results:
-dnl
-dnl     LIBNET_BIG_ENDIAN = 1   or
-dnl     LIBNET_LIL_ENDIAN = 1
-dnl
-
 AC_DEFUN([AC_LIBNET_ENDIAN_CHECK],
     [AC_C_BIGENDIAN
 	if test $ac_cv_c_bigendian = yes ; then
@@ -215,16 +187,10 @@ dnl Improved version of AC_CHECK_LIB
 dnl
 dnl Thanks to John Hawkinson (jhawk@mit.edu)
 dnl
-dnl usage:
+dnl usage:      AC_LBL_CHECK_LIB(LIBRARY, FUNCTION [, ACTION-IF-FOUND [,
+dnl             ACTION-IF-NOT-FOUND [, OTHER-LIBRARIES]]])
+dnl results:    LIBS
 dnl
-dnl     AC_LBL_CHECK_LIB(LIBRARY, FUNCTION [, ACTION-IF-FOUND [,
-dnl         ACTION-IF-NOT-FOUND [, OTHER-LIBRARIES]]])
-dnl
-dnl results:
-dnl
-dnl     LIBS
-dnl
- 
 define([AC_LBL_CHECK_LIB],
 [AC_MSG_CHECKING([for $2 in -l$1])
 dnl Use a cache variable name containing both the library and function name,
@@ -326,3 +292,29 @@ AC_DEFUN([AC_LBL_LIBRARY_NET],
     AC_CHECK_LIB(str, putmsg)
     ])
 
+dnl
+dnl Test whether desired compiler flag is supported by the current compiler.
+dnl This is a strange (but less dependency hungry) mix of the
+dnl autoconf-archive's ax_compiler_flags.m4 and
+dnl libenchant's ENCHANT_CXX_TRY_FLAG macros.
+dnl
+dnl usage:      LIBNET_CC_TRY_FLAG([FLAG], [ACTION-SUCCESS])
+dnl results:    ACTION-SUCCESS is a shell command to execute on success.
+dnl             See configure.ac for examples.
+dnl
+AC_DEFUN([LIBNET_CC_TRY_FLAG], [
+  AC_MSG_CHECKING([whether compiler accepts $1])
+
+  libnet_save_CFLAGS="$CFLAGS"
+  CFLAGS="$CFLAGS $1"
+
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ ]])], [libnet_cc_flag=yes], [libnet_cc_flag=no])
+  CFLAGS="$libnet_save_CFLAGS"
+
+  if test "x$libnet_cc_flag" = "xyes"; then
+    ifelse([$2], , :, [$2])
+  else
+    ifelse([$3], , :, [$3])
+  fi
+  AC_MSG_RESULT([$libnet_cc_flag])
+])

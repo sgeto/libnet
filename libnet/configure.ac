@@ -77,6 +77,8 @@ AC_CONFIG_HEADERS([include/config.h])
 dnl the default compiler flags are "-O2 -g" if the user does not set anything.
 dnl IMO O2 optimizations are fine, but debugging should be up to the user.
 : ${CFLAGS="-O2"}
+# no default compiler flags.
+: ${CFLAGS=""}
 
 dnl Check for the usual programs
 AC_PROG_CC
@@ -254,8 +256,7 @@ AC_MSG_RESULT([$enable_samples])
 
 AM_CONDITIONAL([ENABLE_SAMPLES], [test "$enable_samples" = "yes"])
 
-dnl Check for debug
-dnl FIXME make it do any actual debuging
+# Check for debug
 AC_MSG_CHECKING([whether to compile in debug mode])
 AC_ARG_ENABLE([debug],
     [AS_HELP_STRING([--enable-debug],[compile with extra debugging output @<:@default=no@:>@])],
@@ -264,8 +265,9 @@ AC_ARG_ENABLE([debug],
 )
 AC_MSG_RESULT([$use_debug])
 
-dnl Check for max speed
-dnl FIXME add more flags
+AM_CONDITIONAL([USE_DEBUG], [test "$use_debug" = "yes"])
+
+# Check for max speed
 AC_MSG_CHECKING([whether to enable additional optimizations])
 AC_ARG_ENABLE([fast],
     [AS_HELP_STRING([--enable-fast],[compile with optimizations @<:@default=no@:>@])],
@@ -282,22 +284,106 @@ then
     fi
 fi
 
-if test "x$use_fast" = "xyes"
-then
-    OPT_FLAGS="-O2 -g -fno-strict-aliasing"
-else
-    OPT_FLAGS="-O0 -ggdb"
-    AM_CFLAGS="${AM_CFLAGS} -fkeep-inline-functions"
-    if test "x$use_debug" = "xyes"
-    then
-        AM_CPPFLAGS="${AM_CPPFLAGS} -DDEBUG -DTRACE"
+if test "x$use_fast" = "xyes" ; then
+CC_MAYBE_FAST="-Wall -Wextra -Wno-sign-compare -Wdisabled-optimization 
+-Wunsafe-loop-optimizations -Wno-aggressive-loop-optimizations \
+-funsafe-math-optimizations -funsafe-loop-optimizations -fgcse-sm \
+-fgcse-las"
+
+# invalidate cached value if MAYBE_FAST has changed
+    if test "x$libnet_cv_fast_maybe" != "x$CC_MAYBE_FAST"; then
+        unset libnet_cv_fast_cflags
     fi
+    AC_CACHE_CHECK([for supported optimizations flags], libnet_cv_fast_cflags, [
+    echo
+    CC_FAST_CFLAGS=""
+
+    for F in $CC_MAYBE_FAST; do
+        LIBNET_CC_TRY_FLAG([$F], [CC_FAST_CFLAGS="$CC_FAST_CFLAGS $F"])
+    done
+
+    libnet_cv_fast_cflags=$CC_FAST_CFLAGS
+    libnet_cv_fast_maybe=$CC_MAYBE_FAST
+    AC_MSG_CHECKING([which optimizations flags were supported])])
+
+    CFLAGS="$CFLAGS -g0 -Ofast $libnet_cv_fast_cflags"
+
+AX_CHECK_LINK_FLAG([-Wl,--strip-all],
+[LDFLAGS="$LDFLAGS -Wl,--strip-all"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--strip-debug],
+[LDFLAGS="$LDFLAGS -Wl,--strip-debug"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--relax],
+[LDFLAGS="$LDFLAGS -Wl,--relax"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--warn-common],
+[LDFLAGS="$LDFLAGS -Wl,--warn-common"], [])
 fi
 
-dnl what (not) to do if the user disables shared libraries
+if test "x$use_debug" = "xyes" ; then
+    if test "${ax_cv_c_compiler_vendor}" = clang ; then
+# -Weverything is “all current and future warnings forever, except those that we disable”.
+        CFLAGS="$CFLAGS -g3 -Weverything -DDEBUG -D_DEBUG"
+    else
+# Use lots of warning flags with gcc and compatible compilers
+#
+# Note: if you change the following variable, the cache is automatically
+# skipped and all flags rechecked. So there's no need to do anything
+# else. If for any reason you need to force a recheck, just change
+# MAYBE_WARN in an ignorable way (like adding whitespace)
+#
+# There are some order dependencies here.
+# Specifically, an option that disables a warning will
+# have no net effect if a later option then enables that
+# warnings, (perhaps implicitly). So we put some grouped
+# options (-Wall and -Wextra) up front and the -Wno options
+# last.
+    CC_MAYBE_WARN="-Wall -Wextra -Wpedantic\
+    -Wundef -Wnested-externs -Wwrite-strings -Wpointer-arith -Wmissing-declarations \
+    -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls \
+    -Wno-unused-parameter -Wno-missing-field-initializers \
+    -Wdeclaration-after-statement -Wformat=2 -Wold-style-definition -Wcast-align \
+    -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow \
+    -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self \
+    -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds \
+    -Wimplicit-function-declaration -Wreturn-type -Wswitch-enum -Wswitch-default \
+    -Wno-suggest-attribute=format -fno-strict-aliasing"
+
+# invalidate cached value if MAYBE_WARN has changed
+    if test "x$libnet_cv_warn_maybe" != "x$CC_MAYBE_WARN"; then
+        unset libnet_cv_warn_cflags
+    fi
+    AC_CACHE_CHECK([for supported warning flags], libnet_cv_warn_cflags, [
+    echo
+    CC_WARN_CFLAGS=""
+
+    for W in $CC_MAYBE_WARN; do
+        LIBNET_CC_TRY_FLAG([$W], [CC_WARN_CFLAGS="$CC_WARN_CFLAGS $W"])
+    done
+
+    libnet_cv_warn_cflags=$CC_WARN_CFLAGS
+    libnet_cv_warn_maybe=$CC_MAYBE_WARN
+    AC_MSG_CHECKING([which warning flags were supported])])
+
+    CFLAGS="$CFLAGS -g3 $libnet_cv_warn_cflags -DDEBUG -D_DEBUG"
+    fi
+
+AX_CHECK_LINK_FLAG([-Wl,--no-as-needed],
+[LDFLAGS="$LDFLAGS -Wl,--no-as-needed"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--fatal-warnings],
+[LDFLAGS="$LDFLAGS -Wl,--fatal-warnings"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--warn-common],
+[LDFLAGS="$LDFLAGS -Wl,--warn-common"], [])
+
+fi
+
+# what (not) to do if the user disables shared libraries
 AM_CONDITIONAL([COND_SHARED], [test "x$enable_shared" != xno])
 
-dnl Check and set OS specific parameters
+# Check and set OS specific parameters
 case "$target_os" in
 
 *linux*)
@@ -519,8 +605,8 @@ Configuration Summary
 Compilation Environment
 
     Cross-compiling: .............. ${cross_compiling}
-    Compiler is GCC: .............. ${ac_cv_c_compiler_gnu}
-    CC: ........................... ${CC}
+    Compiler (CC): ................ ${ax_cv_c_compiler_vendor}
+    Compiler Version: ............. ${ax_cv_c_compiler_version}
     CFLAGS:........................ ${CFLAGS}
     LD: ........................... ${LD}
     LDFLAGS: ...................... ${LDFLAGS}
