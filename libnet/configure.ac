@@ -60,43 +60,61 @@ AC_INIT(
 
 AC_CONFIG_AUX_DIR([build-aux])
 
-dnl the autotools and libtool should be at least these versions
+# the autotools and libtool should be at least these versions
 AC_PREREQ([2.69])
 LT_PREREQ([2.4.2])
 
 AC_COPYRIGHT([Copyright 1998 - 2017 The libnet Developer Community])
-AC_MSG_RESULT(Beginning autoconfiguration process for libnet-${PACKAGE_VERSION} ...)
+AS_BOX([            Configuring AC_PACKAGE_TARNAME AC_PACKAGE_VERSION            ])
+echo
+
 AC_PROG_SHELL
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/libnet_build_ip.c])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-ustar dist-zip])
 AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-pax dist-zip])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([include/config.h])
 
-dnl the default compiler flags are "-O2 -g" if the user does not set anything.
-dnl IMO O2 optimizations are fine, but debugging should be up to the user.
-: ${CFLAGS="-O2"}
 # no default compiler flags.
 : ${CFLAGS=""}
 
-dnl Check for the usual programs
+# To speed up the configure process on Windows, we will define a WIN32
+# variable this early and use it to exclude those checks that are not​
+# needed or will always fail on Windows.
+
+case "$target_os" in
+*mingw*)
+    WIN32=yes;;
+*)
+    WIN32=no;;
+esac
+
+AC_SUBST(WIN32)
+AM_CONDITIONAL([WIN32], [test "$WIN32" = "yes"])
+
+# Check for the usual programs
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_USE_SYSTEM_EXTENSIONS
-dnl The default is to use only PIC objects.
-dnl This can still be overwritten with --without-pic
-LT_INIT([pic-only])
+AX_COMPILER_VENDOR
+AX_COMPILER_VERSION
 
+# The default is to use only PIC objects.
+# This can still be overwritten with --without-pic
+LT_INIT([pic-only win32-dll])
 AC_SUBST(LT_VERSION, [LN_CURRENT:LN_REVISION:LN_AGE])
+
+if test "$WIN32" != yes ; then
 AC_CHECK_HEADERS(sys/sockio.h)
 AC_CHECK_FUNCS([gethostbyname2])
 AC_CHECK_FUNCS([getifaddrs])
+fi
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
 
+if test "$WIN32" != yes ; then
 AC_MSG_CHECKING(for socklen_t)
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
         #include <sys/types.h>
@@ -106,23 +124,29 @@ if test "x$have_socklen_t" = "xyes"; then
         AC_DEFINE(HAVE_SOCKLEN_T, 1, [define if socklen_t is defined])
 fi
 AC_MSG_RESULT($have_socklen_t)
+fi
 
-dnl
-dnl And some custom things
-dnl
+#
+# And some custom things
+#
 
 AC_LIBNET_ENDIAN_CHECK
-dnl AC_LBL_LIBRARY_NET
+# AC_LBL_LIBRARY_NET
 AC_SUBST(ENDIANESS)
+
+# check if this is any good
+#if test "$WIN32" != yes ; then
 AC_SUBST(HAVE_PACKET_SOCKET)
+#fi
 AC_SUBST(ADDITIONAL_LIBS)
 AC_SUBST(LIBNET_CONFIG_DEFINES)
 AC_SUBST(LIBNET_CONFIG_LIBS)
-dnl FIXME this variable is unused
+# FIXME this variable is unused
 AC_SUBST(LIBNET_CONFIG_CFLAGS)
 AC_SUBST(LTLIBOBJS)
 
-dnl Guess the root install directory (if none is provided)
+
+# Guess the root install directory (if none is provided)
 if test "${prefix}" = "NONE"; then
     if test -w /usr/local; then
         prefix=/usr/local
@@ -134,17 +158,19 @@ fi
 if test "${exec_prefix}" = "NONE"; then
     exec_prefix=$prefix
 fi
-dnl libdir and includedir must be fully qualified paths (not ${prefix}/lib)
+# libdir and includedir must be fully qualified paths (not ${prefix}/lib)
 eval libdir="$libdir"
 eval includedir="$includedir"
 
-dnl Get link-layer interface type
+# Get link-layer interface type
 AC_ARG_WITH(
 	[link-layer],
 	[AS_HELP_STRING([--with-link-layer],[when cross-compiling, one of * from libnet_link_*.c @<:@autodetect@:>@])]
 )
 
+if test "$WIN32" != yes ; then
 AC_CHECK_HEADERS([net/pfilt.h sys/net/nit.h net/raw.h sys/dlpi.h linux/socket.h])
+fi
 
 AC_MSG_CHECKING(link-layer packet interface type)
 
@@ -207,9 +233,9 @@ else
     AC_MSG_WARN(link-layer packet injection will not be available)
 fi
 
-dnl This is necessary so that .o files in LIBOBJS are also built via
-dnl the ANSI2KNR-filtering rules.
-dnl FIXME Isn't this nowadays already taken care of by AC_PROG_CC?
+# This is necessary so that .o files in LIBOBJS are also built via
+# the ANSI2KNR-filtering rules.
+# FIXME Isn't this nowadays already taken care of by AC_PROG_CC?
 LIB@&t@OBJS=`echo "$LIB@&t@OBJS" |
        sed 's,\.[[^.]]* ,$U&,g;s,\.[[^.]]*$,$U&,'`
 LTLIBOBJS=`echo "$LIB@&t@OBJS" |
@@ -217,16 +243,15 @@ LTLIBOBJS=`echo "$LIB@&t@OBJS" |
 
 link_layer=`"echo"${LTLIBOBJS}"" | cut -c 13- | awk -F$ '/U.lo/ {print $1}'`
 
-dnl Inform user about the packet builders we've got
+# Inform user about the packet builders we've got
 echo -n "scanning available packet construction modules: "
 for dir in src/*build*c ; do
     echo $dir | sed -e /src\\/libnet_build_/s/// | sed -e /\\.c/s/// | tr \\n \\040
 done
 echo ""
 
-
-# dnl Check for Doxygen and enable its features
-# dnl See m4/ax_prog_doxygen.m4
+# # Check for Doxygen and enable its features
+# # See m4/ax_prog_doxygen.m4
 DX_DOXYGEN_FEATURE(OFF)
 DX_DOT_FEATURE(ON)
 DX_HTML_FEATURE(ON)
@@ -246,7 +271,7 @@ else
     rebuild_docs=no
 fi
 
-dnl Check for sample building
+# Check for sample building
 AC_MSG_CHECKING([whether to build sample programs])
 AC_ARG_ENABLE([samples],
     [AS_HELP_STRING([--disable-samples],[do not build sample programs @<:@default=no@:>@])],
@@ -468,9 +493,9 @@ case "$target_os" in
     AC_CHECK_LIB(nsl, gethostbyname, ,AC_MSG_ERROR(libnsl not found.))
     AC_CHECK_LIB(resolv, hstrerror, ,AC_MSG_ERROR(libresolv not found.))
 
-dnl 
-dnl Broken checksums?
-dnl
+# 
+# Broken checksums?
+#
     case "`uname -r`" in
     5.4)
         AC_DEFINE(STUPID_SOLARIS_CHECKSUM_BUG, 1,
@@ -523,11 +548,6 @@ dnl
     ;;
 
 *mingw*)
-    WIN32="yes"
-    AC_SUBST(WIN32)
-dnl additionally prepare a winconfig.h from config.h.in for MSVC
-dnl see m4/ax_prefix_config_h.m4
-dnl AX_PREFIX_CONFIG_H(winconfig.h)
     PACKAGE_VERSION_DLL=PACKAGE_VERSION_MAJOR,PACKAGE_VERSION_MINOR,PACKAGE_VERSION_PATCH,PACKAGE_VERSION_NANO
 
     if test "$enable_shared" = "yes"; then
@@ -550,8 +570,8 @@ dnl AX_PREFIX_CONFIG_H(winconfig.h)
     if test "$host" = "i686-w64-mingw32" ; then
     CFLAGS="$CFLAGS -march=i686"
     else
-    CFLAGS="$CFLAGS"
-dnl the default GCC toolchains on Debian & Co are so old
+    CFLAGS="$CFLAGS -march=native"
+# the default GCC toolchains on Debian & Co are so old
      AX_CHECK_LINK_FLAG([-Wl,--high-entropy-va],
      [LDFLAGS="$LDFLAGS -Wl,--high-entropy-va"],
      [AC_MSG_NOTICE([Consider updating your toolchain.])])
@@ -574,8 +594,15 @@ dnl the default GCC toolchains on Debian & Co are so old
 
 esac
 
-dnl this only matters if we are building for Windows...
-AM_CONDITIONAL([WIN32], [test "${WIN32}" = "yes"])
+# some finishing touches for clang
+if test "${ax_cv_c_compiler_vendor}" = clang ; then
+case "$target_os" in
+*mingw*)
+    LDFLAGS="$LDFLAGS -L$prefix/lib -L$prefix/$host/lib";;
+*)
+    CFLAGS="$CFLAGS -march=native";;
+esac
+fi
 
 AC_CONFIG_FILES([Makefile \
                  libnet.pc \
@@ -622,13 +649,14 @@ Features and Examples
     Debugging: .................... ${use_debug}
     Additional Optimizations: ..... ${use_fast}
     Build Sample Programs: ........ ${enable_samples}
-    Rebuild docs: ................. ${rebuild_docs}
+    Rebuild Docs: ................. ${rebuild_docs}
 
 To override options, see ./configure --help
 
 To disable silent building and print the full command line of every stage, run "make V=1"
 ])
-if test "$WIN32" = "yes" ; then
+
+if test "$WIN32" = yes ; then
 AC_MSG_WARN([To compile shared libraries on MinGW, use the WinPcap libraries in $(pwd)/win32/.
 GCC is NOT able to produce x64 compatible images using the official WinPcap Developer Pack.
 See README.win32 for more information.
@@ -642,4 +670,4 @@ else
 AC_MSG_RESULT([Report bugs to ${PACKAGE_BUGREPORT}])
 fi
 
-dnl EOF
+# EOF
