@@ -27,7 +27,7 @@ Content(s)
 Introduction
 ------------
 
-**Attention:** Most on the stuff on this page is either placeholder text and/or
+**Attention:** Most of the stuff on this page is either placeholder text and/or
 work in progress.
 At best, you should take the content on this page half-serious.
 I invite you to help expand/improve it.
@@ -59,13 +59,13 @@ So if you want to get oriented with the libnet source code (because you're inter
 in patching the code for example), you should dive straight into each source file, 
 read the source and the comments surrounding it, and... just... figure the rest out!
 Or ask about it [here](https://github.com/sgeto/libnet/issues "Report bugs").
-If that's something you think you're you can see yourself doing then **Welcome Aboard!**
+If that's something you think you can see yourself doing then **Welcome Aboard!**
 By the way, it's also a good idea to go through some of the commits to understand
 the purpose or aim of whoever had their hands on the source before you.
 There will be a "[Hacking](Hacking.html)" section soon that is intended to
 guide and assist developers through this adventures journey. 
 
-That is, if I don't lose interest, any hope or my sanity before that. 
+That is, if I don't lose interest, hope or my sanity before that. 
 Just kidding. (I'm not kidding)
 
 Stay tuned.

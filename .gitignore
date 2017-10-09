@@ -37,12 +37,13 @@ libnet/debian
 
 libnet/doc/libnet.tag
 libnet/doc/fixmanpages
-libnet/doc/api/*.md5
-libnet/doc/api/*.js
-libnet/doc/api/*.map
+# libnet/doc/api/*.md5
+# libnet/doc/api/*.js
+# libnet/doc/api/*.map
+libnet/doc/api
 libnet/doc/latex
 libnet/doc/man/man3/_*.3
-
+libnet/doc/man/man3/*.h.3
 
 libnet/include/config.h
 libnet/include/config.h.in

@@ -1,10 +1,37 @@
-===============================================================================
-    $Id: CONTRIB,v 1.9 2004/11/09 07:05:06 mike Exp $
-    LIBNET 1.1 (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
-        http://www.packetfactory.net/libnet
-===============================================================================
+libnet 1.1.3 and later:
 
-People who have volunteed to check libnet release candidates:
+Alexander Koeppe <format_c@online.de>
+Ali Abdulkadir <autostart.ini@gmail.com>
+allfro <ndouba@gmail.com>
+Andrey Valyaev <dron@securitycode.ru>
+Barak A. Pearlmutter <barak+git@cs.nuim.ie>
+Dagobert Michelsen <dam@opencsw.org>
+dlwdlw <david@williamsons.net>
+Emilio Escobar <emescobar@users.sf.net>
+Eric Leblond <eric@regit.org>
+Gilles Espinasse <g.esp@free.fr>
+Gisle Vanem <gisle.vanem@gmail.com>
+            <gvanem@yahoo.no>
+Jiri Popelka <jpopelka@redhat.com>
+Kelvie Wong <kwong@wurldtech.com>
+Kimmo Suominen <kimmo@fritz>
+pnHKIN <szalaidavid960721@gmail.com>
+repolho <repura0@gmail.com>
+Rich Burridge <rich.burridge@oracle.com>
+Roberto Larcher <roberto.larcher@libero.it>
+rofl0r <retnyg@gmx.net>
+Sam Roberts <sam@strongloop.com>
+            <sroberts@sroberts-desktop.(none)>
+            <vieuxtech@gmail.com>
+someone <sickmind@lavabit.com>
+Stefanos Harhalakis <v13@v13.gr>
+Thomas Habets <thomas@habets.pp.se>
+              <thomas@habets.se>
+Thomas Volkert <thomas@homer-conferencing.com>
+Ulrich Weber <uweber@astaro.com>
+Víctor Martínez <knoopx@gmail.com>
+
+People who have volunteer to check libnet release candidates:
 
 - Thomas Habets <thomas@habets.se>: Irix, snoop, dlpi
 - Emilio A. Escobar <eescobar@gmail.com>: Ubuntu, *BSD, Solaris
@@ -12,7 +39,7 @@ People who have volunteed to check libnet release candidates:
 - Dirk Meyer <dinoex@FreeBSD.org>: FreeBSD
 - Dagobert Michelsen <dam@opencsw.org>: Solaris
 
-Since 1.1.3 the list below is no longer maintained, see CHANGELOG.
+libnet 1.1:
 
     Barbato, Luca
         . faster C checksum routine
