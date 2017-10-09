@@ -1,3 +1,158 @@
+Documentation for LuaJIT is available in HTML format.
+Please point your favorite browser to:
+
+ doc/luajit.html
+
+
+Tags#: DHCP, IPv4, IPv6, exhaustion, pentest, fuzzing, security, scapy
+windows linux security c-plus-plus socket machine-learning lua
+asynchronous
+asynchronous
+c-plus-plus
+libpcap
+linux
+lua
+machine-learning
+netcat
+network-discovery
+nmap
+osx
+pcre
+ping
+port-scanner
+security
+service-discovery
+socket
+windows
+event-driven
+hhvm
+high-performance
+https
+network
+php
+reactphp
+realtime
+socket
+socket-server
+ssl
+tcp
+timer
+webserver
+websocket
+workerman
+ws
+wss
+
+* If there are files in your source repo you don't want to search, just add their patterns to a .ignore file. *cough* extern *cough*
+
+%description
+The Silver Searcher
+An attempt to make something better than ack (which itself is better than grep).
+
+Why use Ag?
+* It searches code about 3â5Ã faster than ack.
+* It ignores file patterns from your .gitignore and .hgignore.
+* If there are files in your source repo you don't want to search, just add their patterns to a .ignore file. *cough* extern *cough*
+* The command name is 33% shorter than ack!
+
+How is it so fast?
+* Searching for literals (no regex) uses Boyer-Moore-Horspool strstr.
+* Files are mmap()ed instead of read into a buffer.
+* If you're building with PCRE 8.21 or greater, regex searches use the JIT compiler.
+* Ag calls pcre_study() before executing the regex on a jillion files.
+* Instead of calling fnmatch() on every pattern in your ignore files, non-regex patterns are loaded into an array and binary searched.
+* Ag uses Pthreads to take advantage of multiple CPU cores and search files in parallel.
+
+formerly from 	Lawrence Berkeley National Laboratory
+				Network Research Group <libpcap@ee.lbl.gov>
+
+				
+ - The TCPdump team
+
+
+	hping3 is a network tool able to send custom TCP/IP
+	packets and to display target replies like ping do with
+	ICMP replies. hping3 can handle fragmentation, and
+	almost arbitrary packet size and content, using the
+	command line interface.
+    
+    As a command line utility, hping is useful to test at
+	many kind of networking devices like firewalls, routers,
+	and so. It can be used as a traceroute alike program over all
+	the supported protocols, firewalk usage, OS fingerprinting,
+	port-scanner (see the --scan option introduced with hping3),
+	TCP/IP stack auditing.
+
+    It's also really a good didactic tool to learn TCP/IP.
+    
+    	hping3 is developed and manteined by antirez@invece.org
+	with the help of other hackers, and comes under GPL version
+	2 of license. Development is open so you can send me
+	patches/suggestions/affronts without inhibitions.
+
+	Please check the AUTHORS file for a list of people that
+	contribued with code, ideas, bug reports.
+
+README for LuaJIT 2.0.4
+-----------------------
+
+LuaJIT is a Just-In-Time (JIT) compiler for the Lua programming language.
+
+Project Homepage: http://luajit.org/
+
+LuaJIT is Copyright (C) 2005-2017 Mike Pall.
+LuaJIT is free software, released under the MIT license.
+See full Copyright Notice in the COPYRIGHT file or in luajit.h.
+
+Documentation for LuaJIT is available in HTML format.
+Please point your favorite browser to:
+
+ doc/luajit.html
+ 
+ Features
+ Documentation
+ Build
+ Packaging
+    Prebuild binaries
+ ## Development kit
+
+    Npcap has its own SDK for ``Non-WinPcap Compatible Mode``. By using it, your software will run under ``Non-WinPcap Compatible Mode``. We don't update the SDK as frequently as the binaries. The latest SDK is [Npcap SDK 0.07 r9](https://github.com/nmap/npcap/releases/tag/v0.07-r9).
+
+## Bug report/KNOWN-BUGS
+See the BUGS manual section for a list of known bugs.
+
+
+        Please report any bugs or issues about Npcap at: [Nmap issues on GitHub](https://github.com/nmap/nmap/issues). In your report, please provide your **DiagReport** output, user software version (e.g. Nmap, Wireshark), reproduce steps and other information you think necessary. If your issue occurs only on a special OS version (e.g. Win10 1511, 1607), please mention it in the report.
+
+        ### Diagnostic report ###
+
+        Npcap has provided a diagnostic utility called ``DiagReport``. It provides a lot of information including OS metadata, Npcap related files, install options, registry values, services, etc. You can simply click the ``C:\Program Files\Npcap\DiagReport.bat`` file to run ``DiagReport``. It will pop up a text report via Notepad (it's stored in: ``C:\Program Files\Npcap\DiagReport.txt``). Please always submit it to us if you encounter any issues.
+
+        ## License
+
+See: [LICENSE](https://github.com/nmap/npcap/blob/master/LICENSE)
+
+## Contact
+
+* ``dev@nmap.org`` (Nmap development list, this is **preferred**)
+* ``hsluoyz@gmail.com`` (Yang Luo's email, if your issue needs to be kept private, please contact me via this mail)
+
+CHANGES: ## Changes/Plans
+The list of changes and "planned adjustments" pretty much matches that of upstream. This is just an overview. If you like each and every change check out all comites since forking the project
+--------
+more options, fixed v6 supoprt (LL src addr), color output, minimal and debug output
+more options, double the fun: scapy fuzzing, ipv6 support
+more options, more fun: show options/show icmp/show arp
+fixed indents, beautify doc, eyefriendly one-line-logging
+
+Credits
+Universal Extractor relies heavily on other programs, and would not be possible without the incredible generosity of the Free Software community.  This is a list of all of the applications that are used by, or in the creation of, Universal Extractor:
+
+7-Zip (Igor Pavlov, Open Source) - Excellent general purpose Windows archive utility; used to extract .7z, 7-Zip SFX .exe, .bz2, .cab, .chm, .cpio, .deb, .gz, .iso, .lha, .lz, .lzh, NSIS installer .exe, .rpm, .tar, .xz, .wim, and .Z files (and probably even more that I overlooked)
+ARC (Howard Chu, Open Source) - ARC archiving utility; used to extract .arc files; Note: binary was obtained from http://gnuwin32.sourceforge.net/packages/arc.htm
+AspackDie (yoda, Open Source) (homepage seems dead) - Unpacker for ASPack-compressed files; used to unpack .exe files with ASpack compression
+AutoIt (Jonathan Bennett, Open Source) - General-purpose Windows scripting language; used to write the UniExtract front-end
+bin2iso (Bob Doiron, Joonas Loppi, Open Source) - Utility to convert BIN/CUE CD-ROM images to ISO images; used in conjunction with 7-Zip to extract .bin/.cue images
 ===============================================================================
     LIBNET 1.1 (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
         http://www.packetfactory.net/libnet
