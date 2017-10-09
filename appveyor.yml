@@ -1,11 +1,28 @@
+# Notes:
+#   - Minimal appveyor.yml file is an empty file. All sections are optional.
+#   - Indent each level of configuration with 2 spaces. Do not use tabs!
+#   - All section names are case-sensitive.
+#   - Section names should be unique on each level.
+
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+version: 1.2.0-{build}
+
+# branches to build
+branches:
+  - master
+  - CI
+  - win32
+#  - doc
 
 install:
-- appveyor DownloadFile http://www.winpcap.org/install/bin/WpdPack_4_1_2.zip
-- 7z x .\WpdPack_4_1_2.zip -o..
+  - appveyor DownloadFile http://www.winpcap.org/install/bin/WpdPack_4_1_2.zip
+  - 7z x .\WpdPack_4_1_2.zip -o..
 
 before_build:
-- cd C:\projects\libnet\libnet
+- cd C:\projects\libnet\libnet\win32
 
 build_script:
 - msvcbuild.bat
-- msvcbuild.bat x64
