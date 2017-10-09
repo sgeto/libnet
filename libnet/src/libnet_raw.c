@@ -80,9 +80,9 @@ static int libnet_finish_setup_socket(libnet_t *l)
 #ifdef SO_SNDBUF
 
 /*
- * man 7 socket 
+ * man 7 socket
  *
- * Sets and  gets  the  maximum  socket  send buffer in bytes. 
+ * Sets and  gets  the  maximum  socket  send buffer in bytes.
  *
  * Taken from libdnet by Dug Song
  */
@@ -94,7 +94,7 @@ static int libnet_finish_setup_socket(libnet_t *l)
 		 __func__, strerror(errno));
         goto bad;
     }
-    
+
     for (n += 128; n < 1048576; n += 128)
     {
         if (setsockopt(l->fd, SOL_SOCKET, SO_SNDBUF, &n, len) < 0)
@@ -216,7 +216,7 @@ int
 libnet_close_raw4(libnet_t *l)
 {
     if (l == NULL)
-    { 
+    {
         return (-1);
     }
 
@@ -248,16 +248,16 @@ libnet_open_raw6(libnet_t *l)
 #endif
 
 /* Solaris IPv6 stuff */
-    
+
     if (l == NULL)
-    { 
+    {
         return (-1);
-    } 
+    }
 
     l->fd = socket(AF_INET6, SOCK_RAW, IPPROTO_RAW);
     if (l->fd == -1)
     {
-        snprintf(l->err_buf, LIBNET_ERRBUF_SIZE, 
+        snprintf(l->err_buf, LIBNET_ERRBUF_SIZE,
                 "%s(): SOCK_RAW allocation failed: %s", __func__,
                 strerror(errno));
         goto bad;
@@ -270,7 +270,7 @@ libnet_open_raw6(libnet_t *l)
     return (l->fd);
 
 bad:
-    return (-1);    
+    return (-1);
 }
 #endif
 
@@ -278,7 +278,7 @@ int
 libnet_close_raw6(libnet_t *l)
 {
     if (l == NULL)
-    { 
+    {
          return (-1);
     }
     return (close(l->fd));

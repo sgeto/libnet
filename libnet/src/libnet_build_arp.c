@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_build_arp.c,v 1.13 2004/04/13 17:32:28 mike Exp $
- *
  *  libnet
  *  libnet_build_arp.c - ARP packet assembler
  *
@@ -43,8 +41,8 @@ const uint8_t *payload, uint32_t payload_s, libnet_t *l, libnet_ptag_t ptag)
     struct libnet_arp_hdr arp_hdr;
 
     if (l == NULL)
-    { 
-        return (-1); 
+    {
+        return (-1);
     }
 
     n = LIBNET_ARP_H + (2 * hln) + (2 * pln) + payload_s;
@@ -71,7 +69,7 @@ const uint8_t *payload, uint32_t payload_s, libnet_t *l, libnet_ptag_t ptag)
     if (n == -1)
     {
         /* err msg set in libnet_pblock_append() */
-        goto bad; 
+        goto bad;
     }
     n = libnet_pblock_append(l, p, sha, hln);
     if (n == -1)
@@ -90,7 +88,7 @@ const uint8_t *payload, uint32_t payload_s, libnet_t *l, libnet_ptag_t ptag)
     {
         /* err msg set in libnet_pblock_append() */
         goto bad;
-    } 
+    }
     n = libnet_pblock_append(l, p, tpa, pln);
     if (n == -1)
     {
@@ -112,14 +110,14 @@ libnet_autobuild_arp(uint16_t op, const uint8_t *sha, const uint8_t *spa, const 
 uint8_t *tpa, libnet_t *l)
 {
     u_short hrd;
-    
+
     switch (l->link_type)
     {
         case 1: /* DLT_EN10MB */
             hrd = ARPHRD_ETHER;
             break;
         case 6: /* DLT_IEEE802 */
-            hrd = ARPHRD_IEEE802; 
+            hrd = ARPHRD_IEEE802;
             break;
         default:
             hrd = 0;
@@ -128,17 +126,17 @@ uint8_t *tpa, libnet_t *l)
             return (-1);
         /* add other link-layers */
     }
-    
+
     return (libnet_build_arp(
-        hrd,                                    /* hardware addr */
-        ETHERTYPE_IP,                           /* protocol addr */
-        6,                                      /* hardware addr size */
-        4,                                      /* protocol addr size */
+        hrd,                                    /* hardware address */
+        ETHERTYPE_IP,                           /* protocol address */
+        6,                                      /* hardware address size */
+        4,                                      /* protocol address size */
         op,                                     /* operation type */
-        sha,                                    /* sender hardware addr */
-        spa,                                    /* sender protocol addr */
-        tha,                                    /* target hardware addr */
-        tpa,                                    /* target protocol addr */
+        sha,                                    /* sender hardware address */
+        spa,                                    /* sender protocol address */
+        tha,                                    /* target hardware address */
+        tpa,                                    /* target protocol address */
         NULL,                                   /* payload */
         0,                                      /* payload size */
         l,                                      /* libnet context */

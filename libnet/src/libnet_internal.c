@@ -70,12 +70,12 @@ void
 libnet_diag_dump_context(libnet_t *l)
 {
     if (l == NULL)
-    { 
+    {
         return;
-    } 
+    }
 
     fprintf(stderr, "fd:\t\t%d\n", l->fd);
- 
+
     switch (l->injection_type)
     {
         case LIBNET_LINK:
@@ -101,7 +101,7 @@ libnet_diag_dump_context(libnet_t *l)
                     l->injection_type);
             break;
     }
-    
+
     fprintf(stderr, "pblock start:\t%p\n", l->protocol_blocks);
     fprintf(stderr, "pblock end:\t%p\n", l->pblock_end);
     fprintf(stderr, "link type:\t%d\n", l->link_type);
@@ -125,7 +125,7 @@ libnet_diag_dump_pblock(libnet_t *l)
 
     for (p = l->protocol_blocks; p; p = p->next)
     {
-        fprintf(stderr, "pblock type:\t%s\n", 
+        fprintf(stderr, "pblock type:\t%s\n",
                 libnet_diag_dump_pblock_type(p->type));
         fprintf(stderr, "ptag number:\t%d\n", p->ptag);
         fprintf(stderr, "pblock address:\t%p\n", p);
