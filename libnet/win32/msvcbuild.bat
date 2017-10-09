@@ -1,53 +1,62 @@
-@rem Script to build libnet with MSVC.
-@rem
-@rem Open a "Visual Studio Developer Command Prompt" and set the compiler
-@rem environment:
-@rem
-@rem     "%VSINSTALLDIR%VC\vcvarsall.bat" x86
-@rem   -or-
-@rem     "%VSINSTALLDIR%VC\vcvarsall.bat" x64
-@rem
-@rem Then cd to this directory and run this script.
+:: Script to build libnet with MSVC.
+::
+:: Open a "Visual Studio Developer Command Prompt" and set the compiler
+:: environment:
+::
+::     "%VSINSTALLDIR%VC\vcvarsall.bat" x86
+::   -or-
+::     "%VSINSTALLDIR%VC\vcvarsall.bat" x64
+::
+:: Then cd to this directory and run this script.
 
-@rem change this to "on" if you need to debug this script
+:: change this to "on" if you need to debug this script
 @echo off
 
-@rem test whether this script is executed from a (VS2015) Developer Command Prompt
+:: test whether this script is executed from a (VS2015) Developer Command Prompt
 if not defined INCLUDE goto :FAIL
 
+@echo.
+@echo _________________________________ NOTICE _________________________________
+@echo This batch file is provided "as is". 
+@echo Meaning that not only is it especially primitive, nobody cares about it,
+@echo and there is probably something wrong with it too. There are many other
+@echo ways to build libnet on Windows. Consider using these instead.
+@echo See README.win32 for more information.
+@echo __________________________________________________________________________
+@echo.
+
 @setlocal
-@rem set these things accordingly (set paths relative to the "src" directory):
+:: set these things accordingly (set paths relative to the "src" directory):
 set WINPCAP=..\win32\wpdpack
 
 if not defined platform (
     set LNARCH=x86
     set WINPCAPLIBS=%WINPCAP%\Lib
 ) else if "%platform%" == "X64" (
-     set LNARCH=x64
-     set WINPCAPLIBS=%WINPCAP%\Lib\x64
+    set LNARCH=x64
+    set WINPCAPLIBS=%WINPCAP%\Lib\x64
 )
 
-@rem FIXME adjust version string.
-@rem There's no agreed naming convention on Windows. If we want to be picky, then
-@rem debug builds should be named libnet9d.dll/lib or libnet1d.dll/lib
-@rem This is how most libraries are named on MSVC. Doing so would conflict with
-@rem the naming style already used by gcc/libtool (libnet-9.x.y.z). However,
-@rem not doing so means not being able to have both debug and release builds
-@rem of libnet in MSVC's (cl) lib directory
-@rem Let's stick with gcc/libtool for now.
+:: FIXME adjust version string.
+:: There's no agreed naming convention on Windows. If we want to be picky, then
+:: debug builds should be named libnet9d.dll/lib or libnet1d.dll/lib
+:: This is how most libraries are named on MSVC. Doing so would conflict with
+:: the naming style already used by gcc/libtool (libnet-9.x.y.z). However,
+:: not doing so means not being able to have both debug and release builds
+:: of libnet in MSVC's (cl) lib directory
 set LNVERSION=1.2
 set LNSOVERSION=9
-set LNDLLNAME=libnet-%LNSOVERSION%.dll
+set LNDLLNAME=libnet.dll
 set LNLIBNAME=libnet.lib
-set LNSTATIC=libnet-%LNSOVERSION%-static.lib
-set LNCOMPILE=cl /nologo /MD /O2 /W3 /c /DSHUT_UP_WINDOZE
-set LNCOMPILEDBG=cl /nologo /MDd /Od /FC /Zi /W3 /c
+set LNSTATIC=libnet-static.lib
+set LNCOMPILE=cl /nologo /MD /MP /O2 /W3 /c /DSHUT_UP_WINDOZE
+set LNCOMPILEDBG=cl /nologo /MDd /MP /Od /FC /Zi /W3 /c
 set LNLINK=link /nologo /DLL /DEF:libnet-%LNSOVERSION%.def ^
 /libpath:%WINPCAPLIBS% /out:%LNDLLNAME% /implib:%LNLIBNAME% *.obj *.res
 set LNLINKDBG=link /nologo /debug /DLL /DEF:libnet-%LNSOVERSION%.def ^
-/libpath:%WINPCAPLIBS% /out:%LNDLLNAME% /PDB:libnet-%LNSOVERSION%.pdb ^
+/libpath:%WINPCAPLIBS% /out:%LNDLLNAME% /PDB:libnet.pdb ^
 /implib:%LNLIBNAME% *.obj *.res
-set LNRC=rc /nologo /v -r
+set LNRC=rc /nologo /I..\include /d__NOTMINGW__ /v -r
 set LNMT=mt /nologo
 set LNLIB=lib /nologo
 set LNINCLUDE=/I. /I..\include /I%WINPCAP%\Include
@@ -75,7 +84,7 @@ libnet_raw.c libnet_resolve.c ^
 libnet_version.c ^
 libnet_write.c
 
-@rem checking supplied options
+:: checking supplied options
 @if "%1"=="" goto :RELEASE
 @if "%1"=="debug" goto :DEBUG
 @if "%1"=="static" goto :STATIC1
@@ -157,13 +166,23 @@ del ..\src\*.dll ..\src\*.lib ..\src\*.exp ..\src\*.obj ..\src\*.res ^
 @echo *   BUILD FAILED -- Please check the error messages   *
 @echo *******************************************************
 @echo.
+@echo.
+@echo _________________________________ NOTICE _________________________________
+@echo This batch file is provided "as is". 
+@echo Meaning that not only is it especially primitive, nobody cares about it,
+@echo and there is probably something wrong with it too. There are many other
+@echo ways to build libnet on Windows. Consider using these instead.
+@echo See README.win32 for more information.
+@echo __________________________________________________________________________
+@echo.
 @title BUILD FAILED
 @goto :eof
 
 :FAIL
 @echo.
-@echo You must open a "Visual Studio Developer Command Prompt" to run this script
+@echo You must open a "Visual C++ Developer Command Prompt" to run this script
 title ERROR
+pause
 @goto :eof
 
 :SUCCESS
