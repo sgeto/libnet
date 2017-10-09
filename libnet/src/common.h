@@ -1,4 +1,5 @@
 /*
+ *  libnet
  *  common.h - common headers
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -49,11 +50,24 @@
 #if (_MSC_VER)
 #include "../include/winconfig.h"
 #define strdup _strdup /* found in libnet_if_addr.c, libnet_init.c and libnet_port_list.c */
-#define close _close /* found in libnet_init.c */
+/* FIXME this closesocket definition should come after libnet.h is included or there'll be a shitstorm of warnings */
+//#define close closesocket /* found in libnet_init.c */
 #ifdef SHUT_UP_WINDOZE
 #pragma warning(disable: 4996) /* _CRT_SECURE_NO_WARNINGS & _WINSOCK_DEPRECATED_NO_WARNINGS */
 #endif /* SHUT_UP_WINDOZE */
 #pragma comment (lib,"Advapi32") /* needed by libnet_prand.c */
+#pragma comment (lib,"iphlpapi")        /* IP Helper */
+#pragma comment (lib,"wpcap")           /* Winpcap   */
+#pragma comment (lib,"packet")          /* Packet    */
+#if (_DEBUG) && (WSOCK_TRACE)
+#if (_WIN64)
+#pragma comment (lib,"wsock_trace_x64") /* Gisle Vanem's excellent Winsock Tracing Library */
+#else
+#pragma comment (lib,"wsock_trace")     /* Available at https://github.com/gvanem/wsock-trace */
+#endif
+#else
+#pragma comment (lib,"ws2_32")          /* Winsock 2 */
+#endif /* (WSOCK_TRACE) */
 #else
 #include "../include/config.h"
 #endif /* _MSC_VER */
