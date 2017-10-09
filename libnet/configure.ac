@@ -311,7 +311,7 @@ then
 fi
 
 if test "x$use_fast" = "xyes" ; then
-CC_MAYBE_FAST="-Wall -Wextra -Wno-sign-compare -Wdisabled-optimization 
+CC_MAYBE_FAST="-Wall -Wextra -Wno-sign-compare -Wdisabled-optimization \
 -Wunsafe-loop-optimizations -Wno-aggressive-loop-optimizations \
 -funsafe-math-optimizations -funsafe-loop-optimizations -fgcse-sm \
 -fgcse-las"
