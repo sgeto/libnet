@@ -70,8 +70,12 @@ libnet_la_LDFLAGS += -no-undefined
 if COND_SHARED
 libnet_la_SOURCES += libnet_dll_info.rc
 libnet_la_LDFLAGS += -Wl,--output-def, -Wl,libnet-9.def
-
+endif
+if USE_DEBUG
 .rc.lo:
-			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) $< -o $@
+			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) -D_DEBUG -I../include $< -o $@
+else
+.rc.lo:
+			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) -I../include $< -o $@
 endif
 endif
