@@ -35,7 +35,7 @@
 /**
  * @file libnet.h
  * @brief Top-level libnet header file
- * 
+ *
  * @details This section doesn't contain any details about libnet.h.
  *
  * If you're wondering why, then that's mostly because libnet.h isn't
@@ -104,7 +104,6 @@ extern "C" {
 #include <windows.h>
 #include <winsock2.h>
 #include <pcap/pcap.h>
-#define WPCAP 1 /* FIXME deprecated? */
 #include <Packet32.h>
 #endif /* _WIN32 */
 
