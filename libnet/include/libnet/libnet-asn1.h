@@ -1,6 +1,5 @@
 /*
- *  $Id: libnet-asn1.h,v 1.3 2004/01/17 07:51:19 mike Exp $
- *
+ *  libnet
  *  libnet-asn1.h - Network routine library ASN.1 header file
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>

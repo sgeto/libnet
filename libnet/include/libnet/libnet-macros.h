@@ -1,6 +1,5 @@
 /*
- *  $Id: libnet-macros.h,v 1.7 2004/04/13 17:32:28 mike Exp $
- *
+ *  libnet
  *  libnet-macros.h - Network routine library macro header file
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -75,7 +74,7 @@
 
 /**
  * Used for libnet_get_prand() to specify function disposition
- */ 
+ */
 #define LIBNET_PR2          0
 #define LIBNET_PR8          1
 #define LIBNET_PR16         2
@@ -113,7 +112,7 @@
 
 /**
  * The libnet error buffer is 256 bytes long.
- */ 
+ */
 #define LIBNET_ERRBUF_SIZE      0x100
 
 /**
@@ -121,7 +120,7 @@
  */
 #define LIBNET_MAXOPTION_SIZE   0x28
 
-/* some BSD variants have this endianess problem */
+/* some BSD variants have this endianness problem */
 #if (LIBNET_BSD_BYTE_SWAP)
 #define FIX(n)      ntohs(n)
 #define UNFIX(n)    htons(n)
@@ -152,11 +151,11 @@ if (payload_s)                                                               \
 #define LIBNET_CKSUM_CARRY(x) \
     (x = (x >> 16) + (x & 0xffff), (~(x + (x >> 16)) & 0xffff))
 
-/* used interally for OSPF stuff */
+/* used internally for OSPF stuff */
 #define LIBNET_OSPF_AUTHCPY(x, y) \
     memcpy((uint8_t *)x, (uint8_t *)y, sizeof(y))
 #define LIBNET_OSPF_CKSUMBUF(x, y) \
-    memcpy((uint8_t *)x, (uint8_t *)y, sizeof(y))  
+    memcpy((uint8_t *)x, (uint8_t *)y, sizeof(y))
 
 /* used internally for NTP leap indicator, version, and mode */
 #define LIBNET_NTP_DO_LI_VN_MODE(li, vn, md) \
@@ -174,6 +173,10 @@ if (payload_s)                                                               \
 
 /* context queue macros and constants */
 #define LIBNET_LABEL_SIZE   64
+/*
+* A card sharp (also cardsharp, card shark or cardshark, sometimes hyphenated)
+* is a person who uses skill and/or deception to win at poker or other card games.
+*/
 #define LIBNET_LABEL_DEFAULT "cardshark"
 #define CQ_LOCK_UNLOCKED    (u_int)0x00000000
 #define CQ_LOCK_READ        (u_int)0x00000001

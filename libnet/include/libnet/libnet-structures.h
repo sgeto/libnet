@@ -1,4 +1,5 @@
 /*
+ *  libnet
  *  libnet-structures.h - Network routine library structures header file
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
