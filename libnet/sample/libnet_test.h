@@ -15,8 +15,8 @@
 
 #if (HAVE_UNISTD_H)
 #if (_MSC_VER)
-#include "../../../win32/getopt.h" /* relative from .vsproj files */
-#else 
+#include "getopt.h"
+#else
 #include <unistd.h> /* a bit of an overkill */
 #endif
 #endif
@@ -66,7 +66,7 @@ void usage(char *);
 //#else   /* assume msvc */
 //extern __dllspec(dllimport) char *optarg;
 //#endif
-  
+
 #endif  /* _WIN32 */
 
 #endif  /* __LIBNET_TEST_H */

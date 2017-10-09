@@ -118,7 +118,7 @@ main(int argc, char *argv[])
     t = libnet_build_802_3(
             cdp_mac,                           /* ethernet destination */
             (uint8_t *)libnet_get_hwaddr(l),  /* ethernet source */
-            LIBNET_802_2_H + LIBNET_802_2SNAP_H + LIBNET_CDP_H,   /* packet len */
+            LIBNET_802_2_H + LIBNET_802_2SNAP_H + LIBNET_CDP_H,   /* packet length */
             NULL,                              /* payload */
             0,                                 /* payload size */
             l,                                 /* libnet context */
