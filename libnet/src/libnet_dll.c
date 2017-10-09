@@ -1,5 +1,4 @@
 /*
- *
  *  libnet
  *  libnet_dll.c - low-level win32 dll routines
  *
@@ -30,18 +29,23 @@
  */
 
 #include "common.h"
-#include "packet32.h"
 
-BOOL WINAPI DllMain(HINSTANCE hinst, ULONG fdwReason, LPVOID lpReserved)
+// dllmain.cpp : Defines the entry point for the DLL application.
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
 {
-    switch (fdwReason)
+    switch (ul_reason_for_call)
     {
-        case DLL_PROCESS_ATTACH:
-            break;
-        case DLL_PROCESS_DETACH:
-            break;
+    case DLL_PROCESS_ATTACH:
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
     }
-    return (TRUE);
+    return TRUE;
 }
 
 /* EOF */

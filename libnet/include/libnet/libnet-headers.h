@@ -1,5 +1,5 @@
 /*
- *
+ *  libnet
  *  libnet-headers.h - Network routine library headers header file
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>

@@ -1,5 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9ic7kmwektgornlg?svg=true)](https://ci.appveyor.com/project/sgeto/libnet)	[![Build Status](https://travis-ci.org/sgeto/libnet.svg?branch=master)](https://travis-ci.org/sgeto/libnet)
 
+![Build status](file:///C:/Users/Ali/projects/libnet/libnet/doc/LIBNET~3.JPG)
+
 # Libnet #
 
 Libnet provides a fairly portable framework for network packet construction
@@ -38,3 +40,15 @@ http://www.packetfactory.net/libnet
 
 **LIBNET 1.1.3 and later (c) 2009 - 2013 Sam Roberts <vieuxtech@gmail.com>**
 http://github.com/sam-github/libnet
+
+References -
+
+[0] https://www.openssh.com/
+[1] http://www.lothar.com/tech/crypto/
+[2] http://www.aet.tu-cottbus.de/personen/jaenicke/postfix_tls/prngd.html
+[3] http://www.gzip.org/zlib/
+[4] http://www.openssl.org/
+[5] http://www.openpam.org
+    http://www.kernel.org/pub/linux/libs/pam/
+    (PAM also is standard on Solaris and HP-UX 11)
+[6] http://man.openbsd.org/style.9

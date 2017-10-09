@@ -35,7 +35,7 @@
 /**
  * @file libnet.h
  * @brief Top-level libnet header file
- * 
+ *
  * @details This section doesn't contain any details about libnet.h.
  *
  * If you're wondering why, then that's mostly because libnet.h isn't
@@ -75,56 +75,54 @@ extern "C" {
 #ifndef DOXYGEN_SHOULD_SKIP_THIS // mess
 #include <stdio.h>
 #include <string.h>
-#include <fcntl.h>
-#include <signal.h>
 #include <stdlib.h>
-
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <ctype.h>
-
 #include <errno.h>
-#include <stdarg.h>
 
-#if !defined(_MSC_VER)
-#include <unistd.h>
-#endif
-
-#if defined(HAVE_SYS_SOCKIO_H) && !defined(SIOCGIFADDR)
-#include <sys/sockio.h>
-#endif
-
-#if !defined(__WIN32__)
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <net/if.h>
+#if !defined(_WIN32)
 #include <arpa/inet.h>
-#include <sys/time.h>
-#include <netdb.h>
-#else /* __WIN32__ */
+#else /* _WIN32 */
 #if (__CYGWIN__)
 #include <sys/socket.h>
 #endif
+#if (_MSC_VER)
+#if (WSOCK_TRACE)
+#if (_WIN64)
+#pragma comment (lib,"wsock_trace_x64") /* Gisle Vanem's excellent Winsock Tracing Library */
+#else
+#pragma comment (lib,"wsock_trace")     /* Available at https://github.com/gvanem/wsock-trace */
+#endif
+#else
+#pragma comment (lib,"ws2_32")          /* Winsock 2 */
+#endif /* (WSOCK_TRACE) */
+#pragma comment (lib,"iphlpapi")        /* IP Helper */
+#pragma comment (lib,"wpcap")           /* Winpcap   */
+#pragma comment (lib,"packet")          /* Packet    */
+#endif /* _MSC_VER */
+
 #include <stdint.h>
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <winsock2.h>
-#endif /* __WIN32__ */
-
-#if (HAVE_NET_ETHERNET_H)
-#include <net/ethernet.h>
-#endif  /* HAVE_NET_ETHERNET_H */
+#include <pcap/pcap.h>
+#include <Packet32.h>
+#endif /* _WIN32 */
 
 #define LIBNET_VERSION  "@PACKAGE_VERSION@"
 
+/* Hard-coded for MSVC. Hope that doesn't backfire... */
+#if (_MSC_VER)
+#define LIBNET_LIL_ENDIAN 1
+#else
 #define @ENDIANESS@ 1
+#endif
 
 #ifndef LIBNET_API
 #define LIBNET_API
 #endif
+
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-#include "./libnet/libnet-types.h"
+#include "./libnet/libnet-types.h" /* ??? */
 #include "./libnet/libnet-macros.h"
 #include "./libnet/libnet-headers.h"
 #include "./libnet/libnet-structures.h"

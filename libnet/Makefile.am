@@ -42,8 +42,7 @@ endif
 doc: doxygen-doc
 	$(AM_V_GEN)cd $(DX_DOCDIR) && ./fixmanpages && cd -
 
-EXTRA_DIST    = msvcbuild.bat \
-                README.win32 \
+EXTRA_DIST    = README.win32 \
                 autogen.sh \
                 map-pblock-types \
                 $(WIN32) \
@@ -51,11 +50,8 @@ EXTRA_DIST    = msvcbuild.bat \
                 $(man_MANS) \
                 $(APIDOC_DEPS)
 
-WIN32         = win32/getopt.h \
-                win32/libnet.h \
-                win32/config.h \
-                win32/stdint.h \
-                win32/wpdpack
+WIN32         = win32/wpdpack \
+                win32/msvcbuild.bat
 
 APIDOCS       = doc/api/*.html \
                 doc/api/*.css \

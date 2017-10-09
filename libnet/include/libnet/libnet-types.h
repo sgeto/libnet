@@ -1,6 +1,5 @@
 /*
- *  $Id: libnet-types.h,v 1.3 2004/01/03 20:31:00 mike Exp $
- *
+ *  libnet
  *  libnet-types.h - Network routine library macro header file
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>

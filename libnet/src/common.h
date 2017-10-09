@@ -1,4 +1,5 @@
 /*
+ *  libnet
  *  common.h - common headers
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -27,35 +28,78 @@
  *
  */
 
-#if (_WIN32) || (__CYGWIN__)
-
-  /* MSVC warns about snprintf */
-  #define _CRT_SECURE_NO_WARNINGS
-
-  #include <pcap/pcap.h>
-  #include <Packet32.h>
-  #include <malloc.h>    /* alloca() */
-
-#ifdef __MINGW32__
-  #include <ntddndis.h>
-#else
-  #include <Ntddndis.h>
+#if (_WIN32) && !defined (WIN32)
+/*
+* For pcap.h. Apparently some compilers don't feel the need to define WIN32.
+* This has been already taken care of in newer versions of libpcap/Npcap,
+* but it hasn't reached many wpcap user yet...
+*/
+#define WIN32
 #endif
 
+/*
+* You maybe thinking: The order is weird. Can't the Windows stuff all be
+* under one huge #ifdef? Well, no. Unfortunately this is how it needs to
+* happen since MinGW and Cygwin should build libnet with a "real" config.h
+* and not with the static "winconfig.h".
+* MSVC not only insists that "winconfig.h" must be included first, libnet.h
+* must also immediately follow. This is most likely related to the pcap thingy
+* mentioned above. Until the switch to Npcap, I'll let him/her have this one.
+* Feel free to correct me.
+*/
+#if (_MSC_VER)
+#include "../include/winconfig.h"
+#define strdup _strdup /* found in libnet_if_addr.c, libnet_init.c and libnet_port_list.c */
+/* FIXME this closesocket definition should come after libnet.h is included or there'll be a shitstorm of warnings */
+//#define close closesocket /* found in libnet_init.c */
+#ifdef SHUT_UP_WINDOZE
+#pragma warning(disable: 4996) /* _CRT_SECURE_NO_WARNINGS & _WINSOCK_DEPRECATED_NO_WARNINGS */
+#endif /* SHUT_UP_WINDOZE */
+#pragma comment (lib,"Advapi32") /* needed by libnet_prand.c */
+#pragma comment (lib,"iphlpapi")        /* IP Helper */
+#pragma comment (lib,"wpcap")           /* Winpcap   */
+#pragma comment (lib,"packet")          /* Packet    */
+#if (_DEBUG) && (WSOCK_TRACE)
+#if (_WIN64)
+#pragma comment (lib,"wsock_trace_x64") /* Gisle Vanem's excellent Winsock Tracing Library */
+#else
+#pragma comment (lib,"wsock_trace")     /* Available at https://github.com/gvanem/wsock-trace */
+#endif
+#else
+#pragma comment (lib,"ws2_32")          /* Winsock 2 */
+#endif /* (WSOCK_TRACE) */
+#else
+#include "../include/config.h"
+#endif /* _MSC_VER */
+
+#include "../include/libnet.h"
+
+#include <fcntl.h> /* libnet_if_addr.c libnet_init.c libnet_raw.c libnet_resolve.c libnet_link_linux.c */
+#include <ctype.h> /* libnet_if_addr.c libnet_port_list.c libnet_resolve.c */
+
+#if (_WIN32) || (__CYGWIN__)
+#include <malloc.h>    /* alloca() */
+#include <Ntddndis.h>
 #else
 
 #include <assert.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 
-/* TODO - should ../include/gnuc.h be included here? */
+#include <sys/ioctl.h> /* libnet_if_addr.c libnet_resolve.c libnet_link_linux.c */
+#include <net/if.h> /* libnet_if_addr.c libnet_resolve.c */
+#include <arpa/inet.h> /* libnet_resolve.c */
+#include <netdb.h>  /* libnet_resolve.c */
 
-/* TODO - HAVE_OS_PROTO_H is never defined, but used in some files, delete it */
-
+#if defined(HAVE_SYS_SOCKIO_H) && !defined(SIOCGIFADDR)
+#include <sys/sockio.h>
 #endif
 
-#include "../include/config.h"
-#include "../include/libnet.h"
+#if (HAVE_NET_ETHERNET_H)
+#include <net/ethernet.h>
+#endif  /* HAVE_NET_ETHERNET_H */
+
+#endif
 
 /* IPPROTO_ and sockaddr_ definitions are here. They are often
  * implicitly pulled in, but some systems need them explicitly

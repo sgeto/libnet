@@ -1,7 +1,5 @@
 /*
- *  $Id: dot1x.c,v 1.2 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build a dot1x packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -47,7 +42,7 @@ main(int argc, char *argv[])
     /* Code Id Length(2) Type DesiredType */
     char payload[] = {0x01, 0x0a, 0x00, 0x7f, 0x03, 0x05};
 
-    printf("libnet 1.1 packet shaping: dot1x\n");
+    printf("%s packet shaping: dot1x\n", PACKAGE_STRING);
 
     if (argc > 1)
     {

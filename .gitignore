@@ -6,6 +6,9 @@
 *.loT
 *.o
 *.obj
+*.lib
+*.ilk
+*.pdb
 *.out.dSYM
 *.so.dSYM
 *~
@@ -109,3 +112,13 @@ libnet/sample/tring_tcp1
 libnet/sample/tring_tcp2
 libnet/sample/udp1
 libnet/sample/udp2
+
+# visual studio
+.vs
+UpgradeLog.htm
+*.vcxproj.user
+libnet/sample/win32/*.db
+libnet/sample/win32/*/Backup
+libnet/sample/win32/*/Debug
+libnet/sample/win32/*/Release
+libnet/sample/win32/*/x64

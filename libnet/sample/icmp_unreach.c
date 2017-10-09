@@ -1,7 +1,5 @@
 /*
- *  $Id: icmp_unreach.c,v 1.4 2004/03/16 18:40:59 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an ICMP unreachable packet
  *
  *  Hacked by Frederic Raynal <pappy@security-labs.org> to illustrate
@@ -33,9 +31,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -50,7 +45,7 @@ main(int argc, char **argv)
     int mode = LIBNET_LINK;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: ICMP unreachable[link]\n"); 
+    printf("%s packet shaping: ICMP unreachable[link]\n", PACKAGE_STRING);
 
     src_ip = 0;
     dst_ip = 0;

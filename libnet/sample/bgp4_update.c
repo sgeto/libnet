@@ -1,6 +1,5 @@
 /*
- *
- * libnet 1.1
+ * libnet
  * Build a BGP4 update message with what you want as payload
  *
  * Copyright (c) 2003 Frédéric Raynal <pappy@security-labs.org>
@@ -74,11 +73,8 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
-#include "./libnet_test.h"
 
+#include "./libnet_test.h"
 
 #define set_ptr_and_size(ptr, size, val, flag)                                 \
     if (size && !ptr)                                                          \
@@ -122,7 +118,7 @@ main(int argc, char *argv[])
     u_char *info = NULL;
     char flag_i = 0;
 
-    printf("libnet 1.1 packet shaping: BGP4 update + payload[raw]\n");
+    printf("%s packet shaping: BGP4 update + payload[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root priviledges are required.

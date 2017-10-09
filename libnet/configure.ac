@@ -1,53 +1,120 @@
-dnl
-dnl Libnet autoconfiguration information file
-dnl Copyright (c) 1998 - 2002 Mike D. Schiffman <mike@infonexus.com>
-dnl Modified by Ali Abdulkadir <autostart.ini@gmail.com>
-dnl All rights reserved.
-dnl
-dnl Process this file with autoconf to produce a configure script.
+#
+# Libnet autoconfiguration information file
+# Copyright (c) 1998 - 2002 Mike D. Schiffman <mike@infonexus.com>
+# Modified by Ali Abdulkadir <autostart.ini@gmail.com>
+# All rights reserved.
+#
+# Process this file with autoconf to produce a configure script.
+
+# First things first:
+# Set and worry about package and library version here
+# (and HERE only)
+
+define([PACKAGE_VERSION_MAJOR], [1])
+define([PACKAGE_VERSION_MINOR], [2])
+define([PACKAGE_VERSION_PATCH], [0])
+define([PACKAGE_VERSION_NANO], [0])
+define([PACKAGE_SUFFIX], [-rc3])
+
+define([LN_CURRENT], [9])
+define([LN_REVISION], [0])
+define([LN_AGE], [0])
+
+# Package versioning note:
+# ========================
+# If libnet package version logic has not already, it will follow the so-called
+# Semantic Versioning Specification (SemVer)
+# See this if you have no idea what that means:
+#   http://semver.org/
+#
+# This means that PACKAGE_VERSION_PATCH may NOT be omitted from version string
+# even if set to 0.
+# PACKAGE_VERSION_NANO may be used for Windows internal versioning.
+# 0 means unused.
+# PACKAGE_SUFFIX may be things like "-rc", "-alpha", "-beta" ect.
+# Leave blank if none of this applies.
+#
+# Library versioning note:
+# ========================
+# The library version should NOT simply be the version of the libnet package.
+# See:
+#   https://www.sourceware.org/autobook/autobook/autobook_61.html#Library-Versioning
+#   http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+# for the rules.
+#
+# Library versioning history:
+# 1.1.2.1-fork is 5:0:4
+# 1.1.3 will be 6:0:5  -> new interfaces, backwards compatible
+# 1.1.4 was 6:0:5 -> probably an error on my part
+# 1.1.5 is 7:0:6 -> new APIs, backwards compatible
+# 1.1.6 is 8:0:7 -> new APIs, backwards compatible
+# 1.2.0 is 9:0:0 -> new APIs, removed __libnet_print_vers (internal, should not have been used, but linkable) APIs
+
 
 AC_INIT(
     [libnet],
-    [1.2-rc3],
+    [PACKAGE_VERSION_MAJOR.PACKAGE_VERSION_MINOR.PACKAGE_VERSION_PATCH[]PACKAGE_SUFFIX],
     [https://github.com/sgeto/libnet/issues],
     [libnet],
     [https://github.com/sgeto/libnet])
 
 AC_CONFIG_AUX_DIR([build-aux])
 
-dnl the autotools and libtool should be at least these versions
+# the autotools and libtool should be at least these versions
 AC_PREREQ([2.69])
 LT_PREREQ([2.4.2])
 
 AC_COPYRIGHT([Copyright 1998 - 2017 The libnet Developer Community])
-AC_MSG_RESULT(Beginning autoconfiguration process for libnet-${PACKAGE_VERSION} ...)
+AS_BOX([            Configuring AC_PACKAGE_TARNAME AC_PACKAGE_VERSION            ])
+echo
+
 AC_PROG_SHELL
 AC_CANONICAL_TARGET
 AC_CONFIG_SRCDIR([src/libnet_build_ip.c])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-ustar dist-zip])
+AM_INIT_AUTOMAKE([1.14 foreign no-dependencies nostdinc tar-pax dist-zip])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([include/config.h])
 
-dnl the default compiler flags are "-O2 -g" if the user does not set anything.
-dnl IMO O2 optimizations are fine, but debugging should be up to the user.
-: ${CFLAGS="-O2"}
+# no default compiler flags.
+: ${CFLAGS=""}
 
-dnl Check for the usual programs
+# To speed up the configure process on Windows, we will define a WIN32
+# variable this early and use it to exclude those checks that are not​
+# needed or will always fail on Windows.
+
+case "$target_os" in
+*mingw*)
+    WIN32=yes;;
+*)
+    WIN32=no;;
+esac
+
+AC_SUBST(WIN32)
+AM_CONDITIONAL([WIN32], [test "$WIN32" = "yes"])
+
+# Check for the usual programs
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_USE_SYSTEM_EXTENSIONS
-dnl The default is to use only PIC objects.
-dnl This can still be overwritten with --without-pic
-LT_INIT([pic-only])
+AX_COMPILER_VENDOR
+AX_COMPILER_VERSION
 
+# The default is to use only PIC objects.
+# This can still be overwritten with --without-pic
+LT_INIT([pic-only win32-dll])
+AC_SUBST(LT_VERSION, [LN_CURRENT:LN_REVISION:LN_AGE])
+
+if test "$WIN32" != yes ; then
 AC_CHECK_HEADERS(sys/sockio.h)
 AC_CHECK_FUNCS([gethostbyname2])
 AC_CHECK_FUNCS([getifaddrs])
+fi
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
 
+if test "$WIN32" != yes ; then
 AC_MSG_CHECKING(for socklen_t)
 AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
         #include <sys/types.h>
@@ -57,23 +124,29 @@ if test "x$have_socklen_t" = "xyes"; then
         AC_DEFINE(HAVE_SOCKLEN_T, 1, [define if socklen_t is defined])
 fi
 AC_MSG_RESULT($have_socklen_t)
+fi
 
-dnl
-dnl And some custom things
-dnl
+#
+# And some custom things
+#
 
 AC_LIBNET_ENDIAN_CHECK
-dnl AC_LBL_LIBRARY_NET
+# AC_LBL_LIBRARY_NET
 AC_SUBST(ENDIANESS)
+
+# check if this is any good
+#if test "$WIN32" != yes ; then
 AC_SUBST(HAVE_PACKET_SOCKET)
+#fi
 AC_SUBST(ADDITIONAL_LIBS)
 AC_SUBST(LIBNET_CONFIG_DEFINES)
 AC_SUBST(LIBNET_CONFIG_LIBS)
-dnl FIXME this variable is unused
+# FIXME this variable is unused
 AC_SUBST(LIBNET_CONFIG_CFLAGS)
 AC_SUBST(LTLIBOBJS)
 
-dnl Guess the root install directory (if none is provided)
+
+# Guess the root install directory (if none is provided)
 if test "${prefix}" = "NONE"; then
     if test -w /usr/local; then
         prefix=/usr/local
@@ -85,17 +158,19 @@ fi
 if test "${exec_prefix}" = "NONE"; then
     exec_prefix=$prefix
 fi
-dnl libdir and includedir must be fully qualified paths (not ${prefix}/lib)
+# libdir and includedir must be fully qualified paths (not ${prefix}/lib)
 eval libdir="$libdir"
 eval includedir="$includedir"
 
-dnl Get link-layer interface type
+# Get link-layer interface type
 AC_ARG_WITH(
 	[link-layer],
 	[AS_HELP_STRING([--with-link-layer],[when cross-compiling, one of * from libnet_link_*.c @<:@autodetect@:>@])]
 )
 
+if test "$WIN32" != yes ; then
 AC_CHECK_HEADERS([net/pfilt.h sys/net/nit.h net/raw.h sys/dlpi.h linux/socket.h])
+fi
 
 AC_MSG_CHECKING(link-layer packet interface type)
 
@@ -158,9 +233,9 @@ else
     AC_MSG_WARN(link-layer packet injection will not be available)
 fi
 
-dnl This is necessary so that .o files in LIBOBJS are also built via
-dnl the ANSI2KNR-filtering rules.
-dnl FIXME Isn't this nowadays already taken care of by AC_PROG_CC?
+# This is necessary so that .o files in LIBOBJS are also built via
+# the ANSI2KNR-filtering rules.
+# FIXME Isn't this nowadays already taken care of by AC_PROG_CC?
 LIB@&t@OBJS=`echo "$LIB@&t@OBJS" |
        sed 's,\.[[^.]]* ,$U&,g;s,\.[[^.]]*$,$U&,'`
 LTLIBOBJS=`echo "$LIB@&t@OBJS" |
@@ -168,16 +243,15 @@ LTLIBOBJS=`echo "$LIB@&t@OBJS" |
 
 link_layer=`"echo"${LTLIBOBJS}"" | cut -c 13- | awk -F$ '/U.lo/ {print $1}'`
 
-dnl Inform user about the packet builders we've got
+# Inform user about the packet builders we've got
 echo -n "scanning available packet construction modules: "
 for dir in src/*build*c ; do
     echo $dir | sed -e /src\\/libnet_build_/s/// | sed -e /\\.c/s/// | tr \\n \\040
 done
 echo ""
 
-
-# dnl Check for Doxygen and enable its features
-# dnl See m4/ax_prog_doxygen.m4
+# # Check for Doxygen and enable its features
+# # See m4/ax_prog_doxygen.m4
 DX_DOXYGEN_FEATURE(OFF)
 DX_DOT_FEATURE(ON)
 DX_HTML_FEATURE(ON)
@@ -197,7 +271,7 @@ else
     rebuild_docs=no
 fi
 
-dnl Check for sample building
+# Check for sample building
 AC_MSG_CHECKING([whether to build sample programs])
 AC_ARG_ENABLE([samples],
     [AS_HELP_STRING([--disable-samples],[do not build sample programs @<:@default=no@:>@])],
@@ -208,8 +282,7 @@ AC_MSG_RESULT([$enable_samples])
 
 AM_CONDITIONAL([ENABLE_SAMPLES], [test "$enable_samples" = "yes"])
 
-dnl Check for debug
-dnl FIXME make it do any actual debuging
+# Check for debug
 AC_MSG_CHECKING([whether to compile in debug mode])
 AC_ARG_ENABLE([debug],
     [AS_HELP_STRING([--enable-debug],[compile with extra debugging output @<:@default=no@:>@])],
@@ -218,8 +291,9 @@ AC_ARG_ENABLE([debug],
 )
 AC_MSG_RESULT([$use_debug])
 
-dnl Check for max speed
-dnl FIXME add more flags
+AM_CONDITIONAL([USE_DEBUG], [test "$use_debug" = "yes"])
+
+# Check for max speed
 AC_MSG_CHECKING([whether to enable additional optimizations])
 AC_ARG_ENABLE([fast],
     [AS_HELP_STRING([--enable-fast],[compile with optimizations @<:@default=no@:>@])],
@@ -236,22 +310,106 @@ then
     fi
 fi
 
-if test "x$use_fast" = "xyes"
-then
-    OPT_FLAGS="-O2 -g -fno-strict-aliasing"
-else
-    OPT_FLAGS="-O0 -ggdb"
-    AM_CFLAGS="${AM_CFLAGS} -fkeep-inline-functions"
-    if test "x$use_debug" = "xyes"
-    then
-        AM_CPPFLAGS="${AM_CPPFLAGS} -DDEBUG -DTRACE"
+if test "x$use_fast" = "xyes" ; then
+CC_MAYBE_FAST="-Wall -Wextra -Wno-sign-compare -Wdisabled-optimization \
+-Wunsafe-loop-optimizations -Wno-aggressive-loop-optimizations \
+-funsafe-math-optimizations -funsafe-loop-optimizations -fgcse-sm \
+-fgcse-las"
+
+# invalidate cached value if MAYBE_FAST has changed
+    if test "x$libnet_cv_fast_maybe" != "x$CC_MAYBE_FAST"; then
+        unset libnet_cv_fast_cflags
     fi
+    AC_CACHE_CHECK([for supported optimizations flags], libnet_cv_fast_cflags, [
+    echo
+    CC_FAST_CFLAGS=""
+
+    for F in $CC_MAYBE_FAST; do
+        LIBNET_CC_TRY_FLAG([$F], [CC_FAST_CFLAGS="$CC_FAST_CFLAGS $F"])
+    done
+
+    libnet_cv_fast_cflags=$CC_FAST_CFLAGS
+    libnet_cv_fast_maybe=$CC_MAYBE_FAST
+    AC_MSG_CHECKING([which optimizations flags were supported])])
+
+    CFLAGS="$CFLAGS -g0 -Ofast $libnet_cv_fast_cflags"
+
+AX_CHECK_LINK_FLAG([-Wl,--strip-all],
+[LDFLAGS="$LDFLAGS -Wl,--strip-all"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--strip-debug],
+[LDFLAGS="$LDFLAGS -Wl,--strip-debug"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--relax],
+[LDFLAGS="$LDFLAGS -Wl,--relax"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--warn-common],
+[LDFLAGS="$LDFLAGS -Wl,--warn-common"], [])
 fi
 
-dnl what (not) to do if the user disables shared libraries
+if test "x$use_debug" = "xyes" ; then
+    if test "${ax_cv_c_compiler_vendor}" = clang ; then
+# -Weverything is “all current and future warnings forever, except those that we disable”.
+        CFLAGS="$CFLAGS -g3 -Weverything -DDEBUG -D_DEBUG"
+    else
+# Use lots of warning flags with gcc and compatible compilers
+#
+# Note: if you change the following variable, the cache is automatically
+# skipped and all flags rechecked. So there's no need to do anything
+# else. If for any reason you need to force a recheck, just change
+# MAYBE_WARN in an ignorable way (like adding whitespace)
+#
+# There are some order dependencies here.
+# Specifically, an option that disables a warning will
+# have no net effect if a later option then enables that
+# warnings, (perhaps implicitly). So we put some grouped
+# options (-Wall and -Wextra) up front and the -Wno options
+# last.
+    CC_MAYBE_WARN="-Wall -Wextra -Wpedantic\
+    -Wundef -Wnested-externs -Wwrite-strings -Wpointer-arith -Wmissing-declarations \
+    -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls \
+    -Wno-unused-parameter -Wno-missing-field-initializers \
+    -Wdeclaration-after-statement -Wformat=2 -Wold-style-definition -Wcast-align \
+    -Wformat-nonliteral -Wformat-security -Wsign-compare -Wstrict-aliasing -Wshadow \
+    -Winline -Wpacked -Wmissing-format-attribute -Wmissing-noreturn -Winit-self \
+    -Wmissing-include-dirs -Wunused-but-set-variable -Warray-bounds \
+    -Wimplicit-function-declaration -Wreturn-type -Wswitch-enum -Wswitch-default \
+    -Wno-suggest-attribute=format -fno-strict-aliasing"
+
+# invalidate cached value if MAYBE_WARN has changed
+    if test "x$libnet_cv_warn_maybe" != "x$CC_MAYBE_WARN"; then
+        unset libnet_cv_warn_cflags
+    fi
+    AC_CACHE_CHECK([for supported warning flags], libnet_cv_warn_cflags, [
+    echo
+    CC_WARN_CFLAGS=""
+
+    for W in $CC_MAYBE_WARN; do
+        LIBNET_CC_TRY_FLAG([$W], [CC_WARN_CFLAGS="$CC_WARN_CFLAGS $W"])
+    done
+
+    libnet_cv_warn_cflags=$CC_WARN_CFLAGS
+    libnet_cv_warn_maybe=$CC_MAYBE_WARN
+    AC_MSG_CHECKING([which warning flags were supported])])
+
+    CFLAGS="$CFLAGS -g3 $libnet_cv_warn_cflags -DDEBUG -D_DEBUG"
+    fi
+
+AX_CHECK_LINK_FLAG([-Wl,--no-as-needed],
+[LDFLAGS="$LDFLAGS -Wl,--no-as-needed"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--fatal-warnings],
+[LDFLAGS="$LDFLAGS -Wl,--fatal-warnings"], [])
+
+AX_CHECK_LINK_FLAG([-Wl,--warn-common],
+[LDFLAGS="$LDFLAGS -Wl,--warn-common"], [])
+
+fi
+
+# what (not) to do if the user disables shared libraries
 AM_CONDITIONAL([COND_SHARED], [test "x$enable_shared" != xno])
 
-dnl Check and set OS specific parameters
+# Check and set OS specific parameters
 case "$target_os" in
 
 *linux*)
@@ -335,9 +493,9 @@ case "$target_os" in
     AC_CHECK_LIB(nsl, gethostbyname, ,AC_MSG_ERROR(libnsl not found.))
     AC_CHECK_LIB(resolv, hstrerror, ,AC_MSG_ERROR(libresolv not found.))
 
-dnl 
-dnl Broken checksums?
-dnl
+# 
+# Broken checksums?
+#
     case "`uname -r`" in
     5.4)
         AC_DEFINE(STUPID_SOLARIS_CHECKSUM_BUG, 1,
@@ -390,11 +548,7 @@ dnl
     ;;
 
 *mingw*)
-    WIN32="yes"
-    AC_SUBST(WIN32)
-dnl additionally prepare a winconfig.h from config.h.in for MSVC
-dnl see m4/ax_prefix_config_h.m4
-dnl AX_PREFIX_CONFIG_H(winconfig.h)
+    PACKAGE_VERSION_DLL=PACKAGE_VERSION_MAJOR,PACKAGE_VERSION_MINOR,PACKAGE_VERSION_PATCH,PACKAGE_VERSION_NANO
 
     if test "$enable_shared" = "yes"; then
         AC_CHECK_TOOL(WINDRES, windres, :)
@@ -403,15 +557,21 @@ dnl AX_PREFIX_CONFIG_H(winconfig.h)
     AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
         [Define to limit the scope of <windows.h>])
 
+    AC_DEFINE_UNQUOTED([PACKAGE_VERSION_DLL], [$PACKAGE_VERSION_DLL], 
+        [Define to the DLL-preferred version of this package.])
+
+    AC_DEFINE_UNQUOTED([PACKAGE_DLL_NAME], ["libnet-LN_CURRENT.dll"], 
+        [Define to the libtool-preferred DLL name of this package.])
+
     AC_CHECK_LIB(packet, PacketSetMode, ,AC_MSG_ERROR(libpacket.a not found. See README.win32 for more information))
     AC_CHECK_LIB(wpcap, pcap_setmode, ,AC_MSG_ERROR(libwpcap.a not found. See README.win32 for more information))
     LIBS="$LIBS -lws2_32 -liphlpapi"
 
     if test "$host" = "i686-w64-mingw32" ; then
-    CFLAGS="$CFLAGS -march=i686 -mwin32"
+    CFLAGS="$CFLAGS -march=i686"
     else
-    CFLAGS="$CFLAGS -mwin32"
-dnl the default GCC toolchains on Debian & Co are so old
+    CFLAGS="$CFLAGS -march=native"
+# the default GCC toolchains on Debian & Co are so old
      AX_CHECK_LINK_FLAG([-Wl,--high-entropy-va],
      [LDFLAGS="$LDFLAGS -Wl,--high-entropy-va"],
      [AC_MSG_NOTICE([Consider updating your toolchain.])])
@@ -434,8 +594,15 @@ dnl the default GCC toolchains on Debian & Co are so old
 
 esac
 
-dnl this only matters if we are building for Windows...
-AM_CONDITIONAL([WIN32], [test "${WIN32}" = "yes"])
+# some finishing touches for clang
+if test "${ax_cv_c_compiler_vendor}" = clang ; then
+case "$target_os" in
+*mingw*)
+    LDFLAGS="$LDFLAGS -L$prefix/lib -L$prefix/$host/lib";;
+*)
+    CFLAGS="$CFLAGS -march=native";;
+esac
+fi
 
 AC_CONFIG_FILES([Makefile \
                  libnet.pc \
@@ -466,8 +633,8 @@ Configuration Summary
 Compilation Environment
 
     Cross-compiling: .............. ${cross_compiling}
-    Compiler is GCC: .............. ${ac_cv_c_compiler_gnu}
-    CC: ........................... ${CC}
+    Compiler (CC): ................ ${ax_cv_c_compiler_vendor}
+    Compiler Version: ............. ${ax_cv_c_compiler_version}
     CFLAGS:........................ ${CFLAGS}
     LD: ........................... ${LD}
     LDFLAGS: ...................... ${LDFLAGS}
@@ -482,13 +649,14 @@ Features and Examples
     Debugging: .................... ${use_debug}
     Additional Optimizations: ..... ${use_fast}
     Build Sample Programs: ........ ${enable_samples}
-    Rebuild docs: ................. ${rebuild_docs}
+    Rebuild Docs: ................. ${rebuild_docs}
 
 To override options, see ./configure --help
 
 To disable silent building and print the full command line of every stage, run "make V=1"
 ])
-if test "$WIN32" = "yes" ; then
+
+if test "$WIN32" = yes ; then
 AC_MSG_WARN([To compile shared libraries on MinGW, use the WinPcap libraries in $(pwd)/win32/.
 GCC is NOT able to produce x64 compatible images using the official WinPcap Developer Pack.
 See README.win32 for more information.
@@ -502,4 +670,4 @@ else
 AC_MSG_RESULT([Report bugs to ${PACKAGE_BUGREPORT}])
 fi
 
-dnl EOF
+# EOF

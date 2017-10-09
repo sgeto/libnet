@@ -1,7 +1,5 @@
 /*
- *  $Id: icmp_echo_cq.c,v 1.3 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build ICMP_ECHO packets using the context queue interface.
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -34,7 +32,6 @@
 
 void usage(char *);
 
-
 int
 main(int argc, char **argv)
 {
@@ -45,13 +42,13 @@ main(int argc, char **argv)
     libnet_ptag_t t;
     char *payload = NULL;
     u_short payload_s = 0;
-  
+
     char *device = NULL;
     char *pDst = NULL, *pSrc = NULL;
     char errbuf[LIBNET_ERRBUF_SIZE];
     char label[LIBNET_LABEL_SIZE];
 
-    printf("libnet 1.1 packet shaping: ICMP[RAW using context queue]\n");
+    printf("%s packet shaping: ICMP[RAW using context queue]\n", PACKAGE_STRING);
 
     while((c = getopt(argc, argv, "d:s:i:c:p:")) != EOF)
     {

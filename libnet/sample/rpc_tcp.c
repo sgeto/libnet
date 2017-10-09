@@ -1,7 +1,5 @@
 /*
- *  $Id: rpc_tcp.c,v 1.2 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  rpc_tcp.c - Build an RPC TCP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -48,10 +43,10 @@ main(int argc, char **argv)
     u_short src_prt, dst_prt;
     char errbuf[LIBNET_ERRBUF_SIZE];
  
-    printf("libnet 1.1 packet shaping: RPC TCP[raw]\n");
+    printf("%s packet shaping: RPC TCP[raw]\n", PACKAGE_STRING);
  
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
             LIBNET_RAW4,                            /* injection type */

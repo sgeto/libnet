@@ -76,7 +76,7 @@ libnet_write(libnet_t *l)
             break;
         default:
             snprintf(l->err_buf, LIBNET_ERRBUF_SIZE,
-                        "%s(): unsuported injection type", __func__);
+                        "%s(): unsupported injection type", __func__);
             goto done;
     }
 
@@ -111,7 +111,7 @@ done:
     return (c);
 }
 
-#if defined (__WIN32__)
+#if defined (_WIN32)
 libnet_ptag_t
 libnet_win32_build_fake_ethernet (uint8_t *dst, uint8_t *src, uint16_t type,
                                   const uint8_t *payload, uint32_t payload_s,
@@ -259,7 +259,7 @@ libnet_write_raw_ipv6(libnet_t *l, const uint8_t *packet, uint32_t size)
     return (libnet_write_raw_ipv4(l, packet, size));
 }
 
-#else /* __WIN32__ */
+#else /* _WIN32 */
 
 int
 libnet_write_raw_ipv4(libnet_t *l, const uint8_t *packet, uint32_t size)
@@ -341,5 +341,5 @@ libnet_write_raw_ipv6(libnet_t *l, const uint8_t *packet, uint32_t size)
 #endif  /* HAVE_SOLARIS && !HAVE_SOLARIS_IPV6 */
     return (c);
 }
-#endif /* __WIN32__ */
+#endif /* _WIN32 */
 /* EOF */

@@ -60,40 +60,7 @@ libnet_la_SOURCES = libnet_asn1.c \
 
 libnet_la_LIBADD = @LTLIBOBJS@
 
-# Note: this version-info should NOT simply be the version of the libnet
-# package. See:
-#   https://www.sourceware.org/autobook/autobook/autobook_61.html#Library-Versioning
-#   http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-# for the rules.
-#
-# Summary:
-#
-# Form is current:revision:age.
-#
-# Here are a set of rules to help you update your library version
-# information:
-#
-# 1. If the library source code has changed at all since the last
-# update, then increment REVISION (`C:R:A' becomes `C:r+1:A').
-#
-# 2. If any interfaces have been added, removed, or changed since the
-# last update, increment CURRENT, and set REVISION to 0.
-#
-# 3. If any interfaces have been added since the last public release,
-# then increment AGE.
-#
-# 4. If any interfaces have been removed since the last public release,
-# then set AGE to 0.
-#
-# Note:
-# 1.1.2.1-fork is 5:0:4
-# 1.1.3 will be 6:0:5  -> new interfaces, backwards compatible
-# 1.1.4 was 6:0:5 -> probably an error on my part
-# 1.1.5 is 7:0:6 -> new APIs, backwards compatible
-# 1.1.6 is 8:0:7 -> new APIs, backwards compatible
-# 1.2   is 9:0:0 -> new APIs, removed __libnet_print_vers (internal, should not have been used, but linkable) APIs
-
-libnet_la_LDFLAGS = -version-info 9:0:0
+libnet_la_LDFLAGS = -version-info $(LT_VERSION)
 
 ## Windows stuff
 
@@ -103,8 +70,12 @@ libnet_la_LDFLAGS += -no-undefined
 if COND_SHARED
 libnet_la_SOURCES += libnet_dll_info.rc
 libnet_la_LDFLAGS += -Wl,--output-def, -Wl,libnet-9.def
-
+endif
+if USE_DEBUG
 .rc.lo:
-			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) $< -o $@
+			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) -D_DEBUG -I../include $< -o $@
+else
+.rc.lo:
+			$(AM_V_GEN)$(LIBTOOL) --mode=compile --silent $(WINDRES) -I../include $< -o $@
 endif
 endif

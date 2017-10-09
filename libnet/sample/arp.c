@@ -1,8 +1,6 @@
 /*
- *  $Id: arp.c,v 1.7 2004/11/09 07:05:07 mike Exp $
- *
- *  libnet 1.1
- *  Build an ARP packet
+ *  libnet
+ *  arp.c - Build an ARP packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
  *  All rights reserved.
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -47,7 +42,7 @@ main(int argc, char *argv[])
     uint32_t packet_s;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: ARP[link -- autobuilding ethernet]\n"); 
+    printf("%s packet shaping: ARP[link -- autobuilding ethernet]\n", PACKAGE_STRING);
 
     if (argc > 1)
     {
@@ -67,17 +62,17 @@ main(int argc, char *argv[])
 	else
 
     i = libnet_get_ipaddr4(l);
-  
+
     t = libnet_build_arp(
-            ARPHRD_ETHER,                           /* hardware addr */
-            ETHERTYPE_IP,                           /* protocol addr */
-            6,                                      /* hardware addr size */
-            4,                                      /* protocol addr size */
+            ARPHRD_ETHER,                           /* hardware address */
+            ETHERTYPE_IP,                           /* protocol address */
+            6,                                      /* hardware address size */
+            4,                                      /* protocol address size */
             ARPOP_REPLY,                            /* operation type */
-            enet_src,                               /* sender hardware addr */
-            (uint8_t *)&i,                         /* sender protocol addr */
-            enet_dst,                               /* target hardware addr */
-            (uint8_t *)&i,                         /* target protocol addr */
+            enet_src,                               /* sender hardware address */
+            (uint8_t *)&i,                          /* sender protocol address */
+            enet_dst,                               /* target hardware address */
+            (uint8_t *)&i,                          /* target protocol address */
             NULL,                                   /* payload */
             0,                                      /* payload size */
             l,                                      /* libnet context */

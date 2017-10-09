@@ -1,8 +1,6 @@
 /*
- *  $Id: icmp6_echoreq.c,v 1.1.1.1 2003/06/26 21:55:10 route Exp $
- *
  *  Poseidon++ (c) 1996 - 2002 Mike D. Schiffman <mike@infonexus.com>
- * Redone from synflood example by Stefan Schlott <stefan@ploing.de>
+ *  Redone from synflood example by Stefan Schlott <stefan@ploing.de>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,9 +25,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 struct t_pack
@@ -51,21 +46,21 @@ main(int argc, char **argv)
     char *cp;
     char errbuf[LIBNET_ERRBUF_SIZE];
     int i, c, packet_amt, burst_int, burst_amt, build_ip;
-	char srcname[100],dstname[100];
+    char srcname[100],dstname[100];
 
     packet_amt  = 0;
     burst_int   = 0;
     burst_amt   = 1;
 
-    printf("libnet 1.1 echo request ICMP6[raw]\n");
+    printf("%s echo request ICMP6[raw]\n", PACKAGE_STRING);
 
     /*
-     *  Initialize the library.  Root priviledges are required.
+     *  Initialize the library.  Root privileges are required.
      */
     l = libnet_init(
-            LIBNET_RAW6,                            /* injection type */
-            NULL,                                   /* network interface */
-            errbuf);                                /* error buffer */
+            LIBNET_RAW6,                /* injection type */
+            NULL,                       /* network interface */
+            errbuf);                    /* error buffer */
 
     if (l == NULL)
     {
@@ -112,31 +107,31 @@ main(int argc, char **argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-	
-	
+    
+    
 
     libnet_seed_prand(l);
-	libnet_addr2name6_r(src_ip,1,srcname,sizeof(srcname));
-	libnet_addr2name6_r(dst_ip,1,dstname,sizeof(dstname));
+    libnet_addr2name6_r(src_ip,1,srcname,sizeof(srcname));
+    libnet_addr2name6_r(dst_ip,1,dstname,sizeof(dstname));
 
     for(t = LIBNET_PTAG_INITIALIZER, build_ip = 1; burst_amt--;)
     {
         for (i = 0; i < packet_amt; i++)
         {
-			char payload[56];
-			int i;
-			for (i=0; i<56; i++) payload[i]='A'+((char)(i%26));
-			t = libnet_build_icmpv4_echo(ICMP6_ECHO,0,0,1,0,(uint8_t *)payload,sizeof(payload),l,t);
+            char payload[56];
+            int i;
+            for (i=0; i<56; i++) payload[i]='A'+((char)(i%26));
+            t = libnet_build_icmpv4_echo(ICMP6_ECHO,0,0,1,0,(uint8_t *)payload,sizeof(payload),l,t);
 
             if (build_ip)
             {
-                build_ip = 0;				
+                build_ip = 0;
                 libnet_build_ipv6(0,0,
- 				    LIBNET_ICMPV6_H + sizeof(payload),
- 		            IPPROTO_ICMP6,
-		            64,
-		            src_ip,
-		            dst_ip,
+                    LIBNET_ICMPV6_H + sizeof(payload),
+                    IPPROTO_ICMP6,
+                    64,
+                    src_ip,
+                    dst_ip,
                     NULL,
                     0,
                     l,
@@ -152,14 +147,14 @@ main(int argc, char **argv)
             {
                 fprintf(stderr, "libnet_write: %s\n", libnet_geterror(l));
             }
-#if !(__WIN32__)
+#if !(_WIN32)
             usleep(250);
 #else
             Sleep(250);
 #endif
 
         }
-#if !(__WIN32__)
+#if !(_WIN32)
         sleep(burst_int);
 #else
         Sleep(burst_int * 1000);

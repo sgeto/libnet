@@ -1,7 +1,5 @@
 /*
- *  $Id: stp.c,v 1.3 2004/01/21 19:01:29 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an STP frame
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -30,9 +28,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 #define CONF    1
@@ -49,7 +44,7 @@ main(int argc, char *argv[])
     char *device = NULL;
     char errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 packet shaping: [STP]\n"); 
+    printf("%s packet shaping: [STP]\n", PACKAGE_STRING);
 
     device = NULL;
     src = dst = NULL;

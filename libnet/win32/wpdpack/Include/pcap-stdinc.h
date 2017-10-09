@@ -60,7 +60,7 @@
 
 #define caddr_t char*
 
-#ifdef _MSC_VER
+#if _MSC_VER < 1500
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #define strdup _strdup

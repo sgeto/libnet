@@ -1,6 +1,4 @@
 /*
- *  $Id: cdp.c,v 1.3 2004/11/09 07:05:07 mike Exp $
- *
  *  cdppoke
  *  CDP information injection tool
  *  Released as part of the MXFP Layer 2 Toolkit
@@ -34,11 +32,7 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
-
 
 int
 main(int argc, char *argv[])
@@ -124,7 +118,7 @@ main(int argc, char *argv[])
     t = libnet_build_802_3(
             cdp_mac,                           /* ethernet destination */
             (uint8_t *)libnet_get_hwaddr(l),  /* ethernet source */
-            LIBNET_802_2_H + LIBNET_802_2SNAP_H + LIBNET_CDP_H,   /* packet len */
+            LIBNET_802_2_H + LIBNET_802_2SNAP_H + LIBNET_CDP_H,   /* packet length */
             NULL,                              /* payload */
             0,                                 /* payload size */
             l,                                 /* libnet context */

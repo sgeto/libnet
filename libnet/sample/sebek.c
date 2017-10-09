@@ -1,6 +1,5 @@
 /*
- *
- *  libnet 1.1
+ *  libnet
  *  Build a Sebek packet
  *
  *  Copyright (c) 2004 Frederic Raynal <pappy@security-labs.org>
@@ -66,7 +65,7 @@ main(int argc, char *argv[])
     unsigned int length = strlen(cmd)+1;
     unsigned short version = SEBEK_PROTO_VERSION, type = SEBEK_TYPE_READ;
 
-    printf("libnet 1.1 packet shaping: Sebek[link]\n"); 
+    printf("%s packet shaping: Sebek[link]\n", PACKAGE_STRING);
 
 
     /*

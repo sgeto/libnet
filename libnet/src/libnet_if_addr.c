@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_if_addr.c,v 1.23 2004/04/13 17:32:28 mike Exp $
- *
  *  libnet
  *  libnet_if_addr.c - interface selection code
  *
@@ -32,6 +30,7 @@
 
 #include "common.h"
 
+/* FIXME HAVE_SYS_SOCKIO_H is also set in common.h */
 #ifdef HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h>
 #endif
@@ -40,7 +39,7 @@
 
 #define MAX_IPADDR 512
 
-#if !(__WIN32__)
+#if !(_WIN32)
 
 /*
  * By testing if we can retrieve the FLAGS of an iface
@@ -345,7 +344,7 @@ libnet_ifaddrlist(register struct libnet_ifaddr_list **ipaddrp, char *dev_unused
 
     return nipaddr;
 }
-#endif /* __WIN32__ */
+#endif /* _WIN32 */
 
 int
 libnet_select_device(libnet_t *l)
@@ -362,7 +361,7 @@ libnet_select_device(libnet_t *l)
 
     if (l->device && !isdigit(l->device[0]))
     {
-#if !(__WIN32__)
+#if !(_WIN32)
 	if (libnet_check_iface(l) < 0)
 	{
             /* err msg set in libnet_check_iface() */

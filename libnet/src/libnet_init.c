@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_init.c,v 1.17 2004/03/16 18:40:59 mike Exp $
- *
  *  libnet
  *  libnet_init.c - Initilization routines.
  *
@@ -32,18 +30,22 @@
 
 #include "common.h"
 
+#if defined(_WIN32)
+#define close closesocket
+#endif
+
 libnet_t *
 libnet_init(int injection_type, const char *device, char *err_buf)
 {
     libnet_t *l = NULL;
 
-#if defined(__WIN32__)
+#if defined(_WIN32)
     WSADATA wsaData;
 
     if ((WSAStartup(0x0202, &wsaData)) != 0)
     {
-        snprintf(err_buf, LIBNET_ERRBUF_SIZE, 
-                "%s(): unable to initialize winsock 2", __func__);
+        snprintf(err_buf, LIBNET_ERRBUF_SIZE,
+                "%s(): unable to initialize Winsock 2", __func__);
         goto bad;
     }
 #endif
@@ -55,7 +57,7 @@ libnet_init(int injection_type, const char *device, char *err_buf)
                 strerror(errno));
         goto bad;
     }
-	
+
     memset(l, 0, sizeof (*l));
 
     l->injection_type   = injection_type;
@@ -151,7 +153,7 @@ void
 libnet_stats(libnet_t *l, struct libnet_stats *ls)
 {
     if (l == NULL)
-    { 
+    {
         return;
     }
 
@@ -164,9 +166,9 @@ int
 libnet_getfd(libnet_t *l)
 {
     if (l == NULL)
-    { 
+    {
         return (-1);
-    } 
+    }
 
     return (int)(l->fd);
 }
@@ -175,7 +177,7 @@ const char *
 libnet_getdevice(libnet_t *l)
 {
     if (l == NULL)
-    { 
+    {
         return (NULL);
     }
 
@@ -188,7 +190,7 @@ libnet_getpbuf(libnet_t *l, libnet_ptag_t ptag)
     libnet_pblock_t *p;
 
     if (l == NULL)
-    { 
+    {
         return (NULL);
     }
 
@@ -210,9 +212,9 @@ libnet_getpbuf_size(libnet_t *l, libnet_ptag_t ptag)
     libnet_pblock_t *p;
 
     if (l == NULL)
-    { 
+    {
         return (0);
-    } 
+    }
 
     p = libnet_pblock_find(l, ptag);
     if (p == NULL)
@@ -234,9 +236,9 @@ libnet_getpacket_size(libnet_t *l)
     uint32_t n;
 
     if (l == NULL)
-    { 
+    {
         return (0);
-    } 
+    }
 
     n = 0;
     p = l->protocol_blocks;

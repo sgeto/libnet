@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_version.c,v 1.7 2004/11/09 07:05:07 mike Exp $
- *
  *  libnet
  *  libnet_version.c - version function to return version info
  *

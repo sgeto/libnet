@@ -1,6 +1,5 @@
 /*
- *
- * libnet 1.1
+ * libnet
  * Build a BGP4 open message with what you want as payload
  *
  * Copyright (c) 2003 Frédéric Raynal <pappy@security-labs.org>
@@ -56,9 +55,7 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
+
 #include "./libnet_test.h"
 
 int
@@ -73,7 +70,7 @@ main(int argc, char *argv[])
     u_long payload_s = 0;
     u_char marker[LIBNET_BGP4_MARKER_SIZE];
 
-    printf("libnet 1.1 packet shaping: BGP4 open + payload[raw]\n");
+    printf("%s packet shaping: BGP4 open + payload[raw]\n", PACKAGE_STRING);
 
     /*
      *  Initialize the library.  Root priviledges are required.

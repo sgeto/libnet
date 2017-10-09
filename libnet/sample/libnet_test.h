@@ -9,11 +9,21 @@
 
 #if (HAVE_CONFIG_H)
 #include "../include/config.h"
+#else /* MSVC */
+#include "../include/winconfig.h"
+#endif
+
+#if (HAVE_UNISTD_H)
+#if (_MSC_VER)
+#include "getopt.h"
+#else
+#include <unistd.h> /* a bit of an overkill */
+#endif
 #endif
 
 #include "../include/libnet.h"
 
-#if !defined(__WIN32__)
+#if !defined(_WIN32)
 # include <netinet/in.h>
 #endif
 
@@ -40,14 +50,15 @@ u_char org_code[3] = {0x00, 0x00, 0x00};
 
 void usage(char *);
 
-#if defined(__WIN32__)
-  #include <getopt.h>  /* For non-MingW, this is a local libnet/win32/getopt.h */
-  #include <winsock2.h>
-  #include <ws2tcpip.h>
+#if defined(_WIN32)
 
-  #ifndef _MSC_VER
-  #include <sys/time.h>
-  #endif
+#ifndef _MSC_VER
+#include <sys/time.h>
+#endif
+
+#ifdef _MSC_VER
+#pragma comment (lib,"libnet")
+#endif
 
 // FIXME: weido... see #define LIBNET_API __declspec(dllexport) in win32/libnet.h...
 //#if defined(__GNUC__)         /* mingw compiler */
@@ -55,8 +66,8 @@ void usage(char *);
 //#else   /* assume msvc */
 //extern __dllspec(dllimport) char *optarg;
 //#endif
-  
-#endif  /* __WIN32__ */
+
+#endif  /* _WIN32 */
 
 #endif  /* __LIBNET_TEST_H */
 

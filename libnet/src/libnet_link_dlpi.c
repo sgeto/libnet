@@ -1,6 +1,4 @@
 /*
- *  $Id: libnet_link_dlpi.c,v 1.8 2004/01/28 19:45:00 mike Exp $
- *
  *  libnet
  *  libnet_dlpi.c - dlpi routines
  *
@@ -26,13 +24,17 @@
  * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
- * This code contributed by Atanu Ghosh (atanu@cs.ucl.ac.uk),
+ * This code is contributed by Atanu Ghosh (atanu@cs.ucl.ac.uk),
  * University College London.
  */
 
 
 #include "common.h"
 
+/*
+* FIXME sys/types.h, sys/socket.h, ctype.h, net/if.h
+* and others are already included via common.h
+*/
 #include <sys/types.h>
 #include <sys/time.h>
 #ifdef HAVE_SYS_BUFMOD_H
@@ -76,9 +78,6 @@
 #include "../include/bpf.h"
 
 #include "../include/gnuc.h"
-#ifdef HAVE_OS_PROTO_H
-#include "../include/os-proto.h"
-#endif
 
 #ifndef DLPI_DEV_PREFIX
 #define DLPI_DEV_PREFIX "/dev"

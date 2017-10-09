@@ -1,7 +1,5 @@
 /*
- *  $Id: ospf_hello.c,v 1.3 2004/11/09 07:05:07 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an OSPF Hello packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -33,9 +31,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 int
@@ -50,7 +45,7 @@ main(int argc, char **argv)
     u_char auth[8] = {0,0,0,0,0,0,0,0};
 
 
-    printf("libnet 1.1 OSPF Hello packet shaping[raw]\n");
+    printf("%s OSPF Hello packet shaping[raw]\n", PACKAGE_STRING);
 
     if (argc != 3) 
     {

@@ -1,7 +1,5 @@
 /*
- *  $Id: ospf_lsa.c,v 1.2 2004/01/03 20:31:01 mike Exp $
- *
- *  libnet 1.1
+ *  libnet
  *  Build an OSPF LSA packet
  *
  *  Copyright (c) 1998 - 2004 Mike D. Schiffman <mike@infonexus.com>
@@ -33,9 +31,6 @@
  *
  */
 
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
 #include "./libnet_test.h"
 
 
@@ -49,7 +44,7 @@ main(int argc, char **argv)
     u_char auth[8] = {0,0,0,0,0,0,0,0};
     char *from, *to, errbuf[LIBNET_ERRBUF_SIZE];
 
-    printf("libnet 1.1 OSPF LSA packet shaping[raw]\n");
+    printf("%s OSPF LSA packet shaping[raw]\n", PACKAGE_STRING);
 
     if (argc != 3) 
     {

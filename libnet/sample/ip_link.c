@@ -1,6 +1,5 @@
 /*
- *
- * libnet 1.1
+ * libnet
  * Build a IPv4 packet with what you want as payload
  *
  * Copyright (c) 2003 Frédéric Raynal <pappy@security-labs.org>
@@ -36,9 +35,7 @@
  * SUCH DAMAGE.
  *
  */
-#if (HAVE_CONFIG_H)
-#include "../include/config.h"
-#endif
+
 #include "./libnet_test.h"
 
 int
@@ -57,7 +54,7 @@ main(int argc, char *argv[])
     u_char payload[255] = {0x11, 0x11, 0x22, 0x22, 0x00, 0x08, 0xc6, 0xa5};
     u_long payload_s = 8;
 
-    printf("libnet 1.1 packet shaping: IP + payload[link]\n");
+    printf("%s packet shaping: IP + payload[link]\n", PACKAGE_STRING);
 
     while ((c = getopt(argc, argv, "d:s:D:S:tp:i:h")) != EOF)
     {
