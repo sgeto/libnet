@@ -104,3 +104,5 @@
 *.html      text
 *.css       text
 
+# Things that only make sense on github.com
+.github export-ignore
