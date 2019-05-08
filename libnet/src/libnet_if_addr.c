@@ -76,13 +76,62 @@ libnet_check_iface(libnet_t *l)
         {
             snprintf(l->err_buf, LIBNET_ERRBUF_SIZE, "%s(): %s is down",
                     __func__, l->device);
-	    res = -1;
+           res = -1;
         }
     }
     close(fd);
     return (res);
 }
 
+#endif
+
+
+#if defined(__OpenBSD__) ||  defined(__linux__)
+#include <sys/types.h>
+    #ifdef __OpenBSD__ 
+    #include <sys/socket.h> 
+    #endif
+#include <ifaddrs.h>
+
+int
+libnet_ifaddrlist(register struct libnet_ifaddr_list **ipaddrp, char *dev, register char *errbuf)
+{
+    static struct libnet_ifaddr_list ifaddrlist[MAX_IPADDR]; /* REALLY ? */
+    struct ifaddrs *ifap, *ifa;
+    int i = 0, nipaddr;
+    memset (ifaddrlist, 0 , sizeof(ifaddrlist));
+
+    if (getifaddrs(&ifap) != 0)
+    {
+        snprintf(errbuf, LIBNET_ERRBUF_SIZE, "%s(): getifaddrs: %s",
+                    __func__, strerror(errno));
+        return 0;
+    }
+    for (ifa = ifap; ifa; ifa = ifa->ifa_next)
+    {
+        if (ifa->ifa_flags & IFF_LOOPBACK)
+            continue;
+
+        if (ifa->ifa_addr->sa_family == AF_INET )
+        {
+            ifaddrlist[i].device = strdup(ifa->ifa_name);
+            if (ifaddrlist[i].device == NULL) {
+                snprintf(errbuf, LIBNET_ERRBUF_SIZE, "%s(): OOM",__func__);
+                continue;
+            }
+            ifaddrlist[i].addr = ((struct sockaddr_in *)ifa->ifa_addr)->sin_addr.s_addr;
+            ++i;
+        }
+    }
+
+    freeifaddrs(ifap);
+    *ipaddrp = ifaddrlist;
+    return (i);
+}
+
+#else
+
+#if !(__WIN32__)
 
 /*
  *  Return the interface list
@@ -347,6 +396,8 @@ libnet_ifaddrlist(register struct libnet_ifaddr_list **ipaddrp, char *dev_unused
 }
 #endif /* __WIN32__ */
 
+#endif /* __OpenBSD__ */
+
 int
 libnet_select_device(libnet_t *l)
 {
@@ -386,7 +437,7 @@ libnet_select_device(libnet_t *l)
                 "%s(): no network interface found", __func__);
         return (-1);
     }
-	
+
     al = address_list;
     if (l->device)
     {
@@ -411,7 +462,7 @@ libnet_select_device(libnet_t *l)
             snprintf(l->err_buf, LIBNET_ERRBUF_SIZE,
                     "%s(): can't find interface for IP %s", __func__,
                     l->device);
-	    goto bad;
+            goto bad;
         }
     }
     else

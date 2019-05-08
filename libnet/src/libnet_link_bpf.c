@@ -30,7 +30,9 @@
 #include "common.h"
 
 #include <sys/param.h>  /* optionally get BSD define */
+#ifndef __OpenBSD__
 #include <sys/timeb.h>
+#endif
 #include <sys/file.h>
 #include <sys/ioctl.h>
 
@@ -61,7 +63,7 @@ libnet_bpf_open(char *err_buf)
      */
     for (i = 0;;i++)
     {
-        sprintf(device, "/dev/bpf%d", i);
+        snprintf(device, 11, "/dev/bpf%d", i);
 
         fd = open(device, O_RDWR);
         if (fd == -1 && errno == EBUSY)
